@@ -18,21 +18,44 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Your awesome title
-email: your-email@example.com
+title: Arun S V
+subtitle: Deep Learning Engineer
+title_separator: "|"
+email: arun119019@example.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Deep Learning Engineer with proven expertise in building and deploying
+  machine learning models for audio and text data. Passionate about
+  leveraging machine learning to solve real-world problems. 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username:  jekyll
 
 # Build settings
-theme: jekyll-theme-cayman
+remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 plugins:
-  - jekyll-feed
+  # - jekyll-feed
+  - jekyll-include-cache
+
+# Theme settings
+minimal_mistakes_skin: "neon"
+repository: "svarunid/arun119019.github.io"
+defaults:
+  - values:
+      show_date: true
+      read_time: true
+comments:
+  provider: "giscus"
+  giscus:
+    repo_id: "R_kgDOLBWeZg"
+    category_name: "General"
+    category_id: "DIC_kwDOLBWeZs4CcwT7"
+    discussion_term: "pathname"
+    reactions_enabled: 1
+    theme: "transparent_dark"
+atom_feed:
+  hide: true
+
 
 # Exclude from processing.
 # The following items will not be processed, by default.
