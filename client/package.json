@@ -1,0 +1,26 @@
+{
+  "name": "@zhura/client",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm run dev:ts & pnpm run dev:site & pnpm run dev:tailwind",
+    "dev:ts": "vite build --watch",
+    "dev:site": "eleventy --serve",
+    "dev:tailwind": "tailwindcss -i src/styles/input.css -o dist/styles/tailwind.css -w",
+    "build": "pnpm run build:tailwind && pnpm run build:ts && pnpm run build:site",
+    "build:ts": "vite build",
+    "build:site": "ELEVENTY_ENV=production eleventy",
+    "build:tailwind": "tailwindcss -i src/styles/input.css -o dist/styles/tailwind.css -m",
+    "clean": "rm -rf dist"
+  },
+  "packageManager": "pnpm@10.20.0",
+  "private": "true",
+  "dependencies": {
+    "lit": "^3.3.1"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
+  }
+}
