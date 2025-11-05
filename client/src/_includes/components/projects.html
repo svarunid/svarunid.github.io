@@ -5,17 +5,14 @@
     <div class="space-y-6">
         {% for project in projects %}
         <article
-            class="p-6 border border-neutral-800 rounded bg-neutral-900/50"
-        >
+            class="p-6 border border-neutral-800 rounded bg-neutral-900/50">
             <div
-                class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-3"
-            >
+                class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-3">
                 <h3 class="text-lg font-semibold text-neutral-100">
                     <a
                         href="{{ project.links.github }}"
                         target="_blank"
-                        class="hover:text-neutral-300 transition-colors"
-                    >
+                        class="hover:text-neutral-300 transition-colors">
                         {{ project.name }}
                     </a>
                 </h3>

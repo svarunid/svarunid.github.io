@@ -62,10 +62,12 @@ export class ChatMessage extends LitElement {
   `;
 
   render() {
-    // prettier-ignore
     return html`
       <div class="bubble ${this.role}">
-        <p class="content ${(this.streaming ? "streaming" : "")}">${this.content}</p>
+        <!-- display: inline -->
+        <p class="content ${this.streaming ? "streaming" : ""}"
+          >${this.content}</p
+        >
       </div>
     `;
   }
