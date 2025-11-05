@@ -55,10 +55,15 @@ The section provides guidelines to follow when developing UI components & layout
 ## Technical Guidelines
 The project is built on [Tailwind CSS](https://tailwindcss.com/) for styling and vanilla HTML & JS along with [Typescript](https://www.typescriptlang.org/), [HTMX](https://htmx.org/), [Alpine.js](https://alpinejs.dev/), [Lit](https://lit.dev/) for the frontend.
 
-### TailwindCSS
-Since the project is developed with Python, TailwindCSS will be used through the CLI.
+### Development Workflow
+Do not start the development server or build the site unless explicitly requested. The development server is typically running in the background with file watching enabled, so changes will be picked up automatically.
 
-- Use the `tailwindcss -i <input>.css -o <output>.css` command to compile tailwind classes.
+### TailwindCSS
+TailwindCSS is installed as an npm dependency and used through npm scripts.
+
+- Use `pnpm run dev:tailwind` to compile tailwind classes in watch mode.
+- Use `pnpm run build:tailwind` to compile and minify for production.
+- The CLI command format is: `tailwindcss -i <input>.css -o <output>.css`
   - Add the `-w` flag to re-compile on file changes.
   - Add the `-m` flag to minify the output.
 
@@ -91,7 +96,7 @@ The project uses TailwindCSS v4 that add breaking changes to the previous versio
 @theme {
   /* Override all font variables */
   --font-*: initial;
-  
+
   /* Override the entire theme */
   --*: initial;
 }
