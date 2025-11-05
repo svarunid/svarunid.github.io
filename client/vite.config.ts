@@ -5,10 +5,15 @@ export default defineConfig({
     outDir: "dist/assets",
     emptyOutDir: false,
     sourcemap: true,
-    lib: {
-      entry: "src/scripts/main.ts",
-      formats: ["es"],
-      fileName: () => "main.js"
-    }
-  }
+    rollupOptions: {
+      input: {
+        home: "src/scripts/home.ts",
+        chat: "src/scripts/chat.ts",
+      },
+      output: {
+        entryFileNames: "[name].js",
+        format: "es",
+      },
+    },
+  },
 });
