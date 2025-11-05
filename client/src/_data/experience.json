@@ -1,0 +1,35 @@
+[
+  {
+    "company": "Cloudside Technologies",
+    "role": "AI Engineer",
+    "duration": "Dec 2024 – Present",
+    "skills": ["Python", "FastAPI", "Google ADK", "LangChain", "LangGraph", "FAISS", "PostgreSQL", "Docker", "GCP"],
+    "highlights": [
+      "Designed and deployed an AI-based entity extraction system using Gemini to parse contact info from complex construction diagrams, achieving ~92% extraction accuracy",
+      "Built a multi-agentic system for log analysis with Google ADK, including a Text-to-SQL agent for BigQuery",
+      "Directed client engagements and guided junior engineers on code quality and best practices",
+      "Awarded 'Best Employee of the Quarter - Q1 2025'"
+    ]
+  },
+  {
+    "company": "AskEVA",
+    "role": "Software Engineer",
+    "duration": "Feb 2024 – Sep 2024",
+    "skills": ["Python", "GCP", "AWS", "CI/CD", "Docker", "Node.js", "MongoDB", "Redis", "NGINX"],
+    "highlights": [
+      "Led end-to-end backend development for AI-powered WhatsApp Business platform",
+      "Designed a scalable queuing system to handle Meta API rate limits, processing hundreds of thousands of outbound messages",
+      "Architected a reliable webhook pipeline for inbound read receipts with AWS SQS and Lambda, increasing throughput by ~35%"
+    ]
+  },
+  {
+    "company": "Buddi AI",
+    "role": "Junior Research Engineer - Trainee",
+    "duration": "Jul 2023 – Oct 2023",
+    "skills": ["Scala", "Java", "Python", "PyTorch"],
+    "highlights": [
+      "Developed an efficient data cleaning pipeline in Scala for extracting structured information from unstructured medical text data",
+      "Implemented and evaluated 'Adaptive Label Thresholding' technique, increasing model precision and recall by 3.17%"
+    ]
+  }
+]

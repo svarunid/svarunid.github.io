@@ -1,0 +1,62 @@
+<section class="py-8">
+    <h2 class="text-2xl font-bold mb-8 pb-2 border-b border-neutral-800">
+        Projects
+    </h2>
+    <div class="space-y-6">
+        {% for project in projects %}
+        <article
+            class="p-6 border border-neutral-800 rounded bg-neutral-900/50"
+        >
+            <div
+                class="flex flex-col md:flex-row md:items-baseline md:justify-between mb-3"
+            >
+                <h3 class="text-lg font-semibold text-neutral-100">
+                    <a
+                        href="{{ project.links.github }}"
+                        target="_blank"
+                        class="hover:text-neutral-300 transition-colors"
+                    >
+                        {{ project.name }}
+                    </a>
+                </h3>
+                <div class="flex gap-3 text-sm mt-2 md:mt-0">
+                    {% if project.links.crates %}
+                    <a
+                        href="{{ project.links.crates }}"
+                        target="_blank"
+                        class="text-neutral-500 hover:text-neutral-300 transition-colors"
+                        >crates.io</a
+                    >
+                    {% endif %} {% if project.links.pypi %}
+                    <a
+                        href="{{ project.links.pypi }}"
+                        target="_blank"
+                        class="text-neutral-500 hover:text-neutral-300 transition-colors"
+                        >PyPI</a
+                    >
+                    {% endif %}
+                </div>
+            </div>
+            <p class="text-sm text-neutral-400 mb-4">
+                {{ project.description }}
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4">
+                {% for skill in project.skills %}
+                <span
+                    class="px-2 py-1 text-xs border border-neutral-700 rounded bg-neutral-800 text-neutral-400"
+                    >{{ skill }}</span
+                >
+                {% endfor %}
+            </div>
+            <ul class="space-y-2 text-sm text-neutral-400">
+                {% for highlight in project.highlights %}
+                <li class="flex gap-2">
+                    <span class="text-neutral-600">•</span>
+                    <span>{{ highlight }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </article>
+        {% endfor %}
+    </div>
+</section>
