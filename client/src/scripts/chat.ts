@@ -99,7 +99,29 @@ async function sendMessage(message: string): Promise<void> {
 
         const chunk = decoder.decode(value, { stream: true });
         accumulatedText += chunk;
-        agentMessage.setAttribute("content", accumulatedText);
+
+        const splitMarker = "<|split|>";
+        const splitIndex = accumulatedText.indexOf(splitMarker);
+
+        if (splitIndex !== -1) {
+          const contentBeforeSplit = accumulatedText.substring(0, splitIndex);
+          currentMessage.setAttribute("content", contentBeforeSplit);
+          currentMessage.removeAttribute("streaming");
+
+          const newAgentMessage = document.createElement("chat-message");
+          newAgentMessage.setAttribute("role", "agent");
+          newAgentMessage.setAttribute("streaming", "true");
+          newAgentMessage.setAttribute("content", "");
+          messagesContainer.appendChild(newAgentMessage);
+          currentMessage = newAgentMessage;
+
+          accumulatedText = accumulatedText.substring(
+            splitIndex + splitMarker.length,
+          );
+        } else {
+          currentMessage.setAttribute("content", accumulatedText);
+        }
+
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
 
