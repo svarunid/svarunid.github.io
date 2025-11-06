@@ -1,7 +1,3 @@
----
-permalink: /chat/index.html
----
-
 <!doctype html>
 <html lang="en">
     <head>
@@ -21,13 +17,13 @@ permalink: /chat/index.html
             integrity="sha384-A986SAtodyH8eg8x8irJnYUk7i9inVQqYigD6qZ9evobksGNIXfeFvDwLSHcp31N"
             crossorigin="anonymous"></script>
     </head>
-    <body class="bg-neutral-950 text-neutral-50 font-mono antialiased">
+    <body class="bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 font-mono antialiased">
         <div class="flex flex-col h-screen max-w-4xl mx-auto px-6">
             <header
-                class="py-4 border-b border-neutral-800 flex items-center justify-between">
+                class="py-4 border-b border-neutral-300 dark:border-neutral-800 flex items-center justify-between">
                 <a
                     href="/"
-                    class="text-neutral-400 hover:text-neutral-50 transition-colors flex items-center gap-2">
+                    class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-50 transition-colors flex items-center gap-2">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="w-5 h-5"
@@ -42,25 +38,42 @@ permalink: /chat/index.html
                     Back to portfolio
                 </a>
                 <h1 class="text-lg font-semibold">Chat</h1>
+                <button
+                    id="new-session-btn"
+                    class="px-4 py-2 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded hover:border-neutral-400 dark:hover:border-neutral-500 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors flex items-center gap-2 text-sm">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 20h9" />
+                        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                    </svg>
+                    New chat
+                </button>
             </header>
 
             <div id="messages" class="flex-1 overflow-y-auto py-6 space-y-4">
                 <!-- Messages will be appended here -->
             </div>
 
-            <form class="py-4 sticky bottom-0 bg-neutral-950" hx-ext="sse">
+            <form class="py-4 sticky bottom-0 bg-neutral-50 dark:bg-neutral-950" hx-ext="sse">
                 <div class="flex gap-3 items-stretch">
                     <input
                         type="text"
                         name="message"
                         id="chat-input"
                         placeholder="Type your message..."
-                        class="flex-1 px-4 py-3 bg-neutral-900 border border-neutral-700 rounded text-neutral-50 placeholder:text-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors"
+                        class="flex-1 px-4 py-3 bg-neutral-100 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-500 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors"
                         autocomplete="off"
                         required />
                     <button
                         type="submit"
-                        class="px-6 py-3 bg-neutral-800 border border-neutral-700 rounded hover:border-neutral-500 hover:bg-neutral-700 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
+                        class="px-6 py-3 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded hover:border-neutral-400 dark:hover:border-neutral-500 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="w-5 h-5"

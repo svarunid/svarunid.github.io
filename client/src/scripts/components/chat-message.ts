@@ -24,22 +24,34 @@ export class ChatMessage extends LitElement {
     .bubble {
       max-width: 80%;
       padding: 0.75rem 1rem;
-      border: 1px solid rgb(64, 64, 64);
       border-radius: 0.5rem;
     }
 
     .bubble.user {
-      background-color: rgb(38, 38, 38);
+      background-color: #e5e5e5;
+      color: #171717;
     }
 
     .bubble.agent {
-      background-color: rgb(23, 23, 23);
+      background-color: #f0f0f0;
+      color: #171717;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .bubble.user {
+        background-color: #404040;
+        color: #fafafa;
+      }
+
+      .bubble.agent {
+        background-color: #262626;
+        color: #fafafa;
+      }
     }
 
     .content {
       font-size: 0.875rem;
       line-height: 1.25rem;
-      color: rgb(250, 250, 250);
       white-space: pre-wrap;
       word-break: break-word;
       margin: 0;

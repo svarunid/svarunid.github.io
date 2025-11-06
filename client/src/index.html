@@ -20,7 +20,7 @@
             defer
             src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
-    <body class="bg-neutral-950 text-neutral-50 font-mono antialiased">
+    <body class="bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-50 font-mono antialiased">
         <div class="max-w-4xl mx-auto px-6">
             <main class="min-h-screen py-12">
                 <header class="text-center py-8">
@@ -29,7 +29,7 @@
                         Hey, I'm Arun S V
                     </h1>
                     <p
-                        class="text-base md:text-lg text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+                        class="text-base md:text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed">
                         A high-agency, hardcore engineer specializing in backend
                         + AI systems. I build AI-native applications at scale,
                         leveraging modern tools to ship fast and iterate
@@ -47,10 +47,10 @@
                             type="text"
                             name="message"
                             placeholder="Ask me anything..."
-                            class="flex-1 px-4 py-3 bg-neutral-900 border border-neutral-700 rounded text-neutral-50 placeholder:text-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors"
+                            class="flex-1 px-4 py-3 bg-neutral-100 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-500 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors"
                             autocomplete="off" />
                         <button
-                            class="px-4 py-3 bg-neutral-800 border border-neutral-700 rounded hover:border-neutral-500 hover:bg-neutral-700 transition-colors flex items-center justify-center"
+                            class="px-4 py-3 bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded hover:border-neutral-400 dark:hover:border-neutral-500 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition-colors flex items-center justify-center"
                             hx-get="/voice"
                             hx-target="body"
                             hx-swap="outerHTML"
@@ -78,41 +78,40 @@
                 "components/projects.html" %} {% include
                 "components/social-marquee.html" %}
 
-                <footer class="py-8 mt-8 border-t border-neutral-800">
+                <footer class="py-8 mt-8 border-t border-neutral-300 dark:border-neutral-800">
                     <div class="flex flex-col items-center gap-6">
                         <nav
                             class="flex flex-wrap justify-center gap-6 text-sm">
                             <a
                                 href="https://github.com/svarunid"
                                 target="_blank"
-                                class="text-neutral-400 hover:text-neutral-100 transition-colors"
+                                class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
                                 >GitHub</a
                             >
                             <a
                                 href="https://www.linkedin.com/in/svarunid/"
                                 target="_blank"
-                                class="text-neutral-400 hover:text-neutral-100 transition-colors"
+                                class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
                                 >LinkedIn</a
                             >
                             <a
                                 href="https://x.com/svarunid"
                                 target="_blank"
-                                class="text-neutral-400 hover:text-neutral-100 transition-colors"
+                                class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
                                 >X</a
                             >
                             <a
                                 href="mailto:svarunid@gmail.com"
-                                class="text-neutral-400 hover:text-neutral-100 transition-colors"
+                                class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
                                 >Email</a
                             >
                         </nav>
-                        <p class="text-xs text-neutral-600">
+                        <p class="text-xs text-neutral-500 dark:text-neutral-600">
                             © 2025 Arun S V. All rights reserved.
                         </p>
                     </div>
                 </footer>
             </main>
         </div>
-        <script type="module" src="/assets/home.js"></script>
     </body>
 </html>
