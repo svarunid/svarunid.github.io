@@ -7,7 +7,6 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       input: {
-        home: "src/scripts/home.ts",
         chat: "src/scripts/chat.ts",
       },
       output: {

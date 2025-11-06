@@ -16,6 +16,9 @@
             src="https://cdn.jsdelivr.net/npm/htmx-ext-sse@2.2.4"
             integrity="sha384-A986SAtodyH8eg8x8irJnYUk7i9inVQqYigD6qZ9evobksGNIXfeFvDwLSHcp31N"
             crossorigin="anonymous"></script>
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
     <body class="bg-neutral-950 text-neutral-50 font-mono antialiased">
         <div class="max-w-4xl mx-auto px-6">
@@ -35,8 +38,12 @@
                 </header>
 
                 <section class="py-4">
-                    <form id="chat-form" class="flex gap-3 items-stretch">
+                    <form
+                        x-data
+                        @submit.prevent="$refs.input.value.trim() && (window.location.href = `/chat/?message=${encodeURIComponent($refs.input.value.trim())}`)"
+                        class="flex gap-3 items-stretch">
                         <input
+                            x-ref="input"
                             type="text"
                             name="message"
                             placeholder="Ask me anything..."
