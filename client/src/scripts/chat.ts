@@ -2,27 +2,22 @@ import { getChatSession, setChatSession } from "./session";
 import { API_BASE_URL } from "./config";
 import "./components/chat-message";
 
-// Handle chat page functionality
 const chatInput = document.getElementById(
   "chat-input",
 ) as HTMLInputElement | null;
 const messagesContainer = document.getElementById("messages");
 
-// Initialize after custom element is defined
 const urlParams = new URLSearchParams(window.location.search);
 const initialMessage = urlParams.get("message");
 
 if (initialMessage && messagesContainer) {
-  // Clean up URL first
   window.history.replaceState({}, "", "/chat");
-  // Wait for custom element to be fully defined
   customElements.whenDefined("chat-message").then(() => {
     sendMessage(initialMessage);
   });
 }
 
 if (chatInput && messagesContainer) {
-  // Handle form submission
   const chatPageForm = chatInput.closest("form");
   if (chatPageForm) {
     chatPageForm.addEventListener("submit", (e) => {
@@ -40,7 +35,6 @@ async function sendMessage(message: string): Promise<void> {
   const messagesContainer = document.getElementById("messages");
   if (!messagesContainer) return;
 
-  // Ensure custom element is defined
   await customElements.whenDefined("chat-message");
 
   // Add user message
@@ -54,12 +48,8 @@ async function sendMessage(message: string): Promise<void> {
   const agentMessage = document.createElement("chat-message");
   agentMessage.setAttribute("role", "agent");
   agentMessage.setAttribute("streaming", "true");
-  messagesContainer.appendChild(agentMessage);
-
-  // Wait a tick for the element to be connected and upgraded
-  await new Promise((resolve) => setTimeout(resolve, 0));
-
   agentMessage.setAttribute("content", "");
+  messagesContainer.appendChild(agentMessage);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
   try {
@@ -69,7 +59,6 @@ async function sendMessage(message: string): Promise<void> {
       "Content-Type": "application/json",
     };
 
-    // Add uid/sid to headers if they exist
     if (uid) headers["X-Chat-UID"] = uid;
     if (sid) headers["X-Chat-SID"] = sid;
 
@@ -79,19 +68,18 @@ async function sendMessage(message: string): Promise<void> {
       body: JSON.stringify({ message }),
     });
 
-    // Store uid/sid from response headers
     const responseUid = response.headers.get("X-Chat-UID");
     const responseSid = response.headers.get("X-Chat-SID");
     if (responseUid && responseSid) {
       setChatSession(responseUid, responseSid);
     }
 
-    // Handle streaming response
     const reader = response.body?.getReader();
     const decoder = new TextDecoder();
 
     if (reader) {
       let accumulatedText = "";
+      let currentMessage = agentMessage;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -125,8 +113,7 @@ async function sendMessage(message: string): Promise<void> {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
       }
 
-      // Stop streaming indicator
-      agentMessage.removeAttribute("streaming");
+      currentMessage.removeAttribute("streaming");
     }
   } catch (error) {
     console.error("Error sending message:", error);
