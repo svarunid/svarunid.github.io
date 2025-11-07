@@ -3,54 +3,54 @@
     "id": "linkedin-1",
     "platform": "linkedin",
     "content": "I see myself moving away from making clicks to do more typing recently. Since I started using CLI based coding agents, I feel reduced friction & increased productivity purely because these agents + MCP servers allowed me to avoid juggling between clicks & types on different apps.",
-    "link": "https://www.linkedin.com/posts/svarunid_i-see-myself-moving-away-from-making-clicks-activity-7376647732599562240-Ggas?utm_source=share&utm_medium=member_desktop&rcm=ACoAACy_sJwBoBWzbASN4EbO7qUAf6YCdksQZbA"
+    "link": "https://www.linkedin.com/posts/svarunid_i-see-myself-moving-away-from-making-clicks-activity-7376647732599562240-Ggas"
   },
   {
     "id": "linkedin-2",
     "platform": "linkedin",
     "content": "A wonderful post that explains the scenario of the current job market and why it's important to have strong foundational knowledge of programming while also having the knowledge to use AI to work more efficiently than before. I use AI through Warp (my recent favorite coding agent) to auto-code.",
-    "link": "https://www.linkedin.com/posts/svarunid_there-is-significant-unmet-demand-for-developers-activity-7369608419663618052-Ao2_?utm_source=share&utm_medium=member_desktop&rcm=ACoAACy_sJwBoBWzbASN4EbO7qUAf6YCdksQZbA"
+    "link": "https://www.linkedin.com/posts/svarunid_there-is-significant-unmet-demand-for-developers-activity-7369608419663618052-Ao2_"
   },
   {
     "id": "linkedin-3",
     "platform": "linkedin",
     "content": "I've been using many different LLMs since their advent yet I can only LOVE OpenAI & Anthropic. They never forget to impress. They just deliver! Whenever I want to talk my emotions out, I always go to ChatGPT. And Claude, oh man, I literally can't find a suitable word to describe the greatness of their CLI.",
-    "link": "https://www.linkedin.com/posts/svarunid_ive-been-using-many-different-llms-since-activity-7348747173888487424-JWrA?utm_source=share&utm_medium=member_desktop&rcm=ACoAACy_sJwBoBWzbASN4EbO7qUAf6YCdksQZbA"
+    "link": "https://www.linkedin.com/posts/svarunid_ive-been-using-many-different-llms-since-activity-7348747173888487424-JWrA"
   },
   {
     "id": "linkedin-4",
     "platform": "linkedin",
     "content": "I'm really into 'vibe coding,' and it's honestly so much fun! Eager to ride the hype train, I kicked off one of my personal projects by using Claude code to bootstrap it. It did a smooth job setting everything up, which convinced me to vibe code the entire web app.",
-    "link": "https://www.linkedin.com/posts/svarunid_im-really-into-vibe-coding-and-its-honestly-activity-7315592104435482624-0b8C?utm_source=share&utm_medium=member_desktop&rcm=ACoAACy_sJwBoBWzbASN4EbO7qUAf6YCdksQZbA"
+    "link": "https://www.linkedin.com/posts/svarunid_im-really-into-vibe-coding-and-its-honestly-activity-7315592104435482624-0b8C"
   },
   {
     "id": "linkedin-5",
     "platform": "linkedin",
     "content": "I tried OpenAI’s Codex CLI to code a fastHTML project in auto-pilot mode. Codex is an open-source command-line tool to use LLMs to read, modify, run code locally, speeding up development, bug fixes, code comprehension. On linux systems, Codex is run inside a container so that it is safe to make changes and execute code within a sandbox environment. Being broke 🥲, I planned to use Google DeepMind's Gemini models as they provide a generous free tier. But, it requires a few workarounds to set it up on my Linux machine along with sandboxing enabled: <br> - Generate Gemini API key via Google' AI Studio. <br> - Export to `GEMINI_API_KEY` environment variable. <br> - Ensure `pnpm` is installed. <br> - Clone https://lnkd.in/grMEsrtg repo. <br> - Go to `codex/codex-cli/scripts` directory. <br> - Edit `init_firewall.sh` to allow traffic to https://lnkd.in/gUbDyn7x. <br> - Add `GEMINI_API_KEY` to environment variables for the docker container in `run_in_container.sh` file. <br> - Make scripts executable. <br> - Build Docker container with `build_container.sh`. <br> - Run CLI: `run_in_container.sh <your query> --provider gemini --model gemini-2.5-flash-preview-04-17`.",
-    "link": "https://www.linkedin.com/posts/svarunid_github-openaicodex-lightweight-coding-activity-7322599359315902464-PL46?utm_source=share&utm_medium=member_desktop&rcm=ACoAACy_sJwBoBWzbASN4EbO7qUAf6YCdksQZbA"
+    "link": "https://www.linkedin.com/posts/svarunid_github-openaicodex-lightweight-coding-activity-7322599359315902464-PL46"
   },
   {
     "id": "linkedin-6",
     "platform": "linkedin",
     "content": "Ah, finally it's done. Ugh.. 😮‍💨. I, here after, will never forget to push my changes to GitHub. Seriously, the python bindings for smoltoken should've been completed way before now. Okay whatever, smoltoken is finally available on PyPI. Just pip install smoltoken and there you have it.",
-    "link": "https://www.linkedin.com/posts/svarunid_ah-finally-its-done-ugh-i-here-activity-7287809804255797248-MZFu?utm_source=share&utm_medium=member_desktop&rcm=ACoAACy_sJwBoBWzbASN4EbO7qUAf6YCdksQZbA"
+    "link": "https://www.linkedin.com/posts/svarunid_ah-finally-its-done-ugh-i-here-activity-7287809804255797248-MZFu"
   },
   {
     "id": "linkedin-7",
     "platform": "linkedin",
     "content": "If you are someone who is losing money on multiple AI subscriptions, then you might want to consider switching to Mammouth. Mammouth AI is an AI aggregator that provides access to top proprietary and open-source conversational and image generation models while being affordable.",
-    "link": "https://www.linkedin.com/posts/svarunid_stay-at-the-top-of-ai-activity-7282796468950781953--CWY?utm_source=share&utm_medium=member_desktop&rcm=ACoAACy_sJwBoBWzbASN4EbO7qUAf6YCdksQZbA"
+    "link": "https://www.linkedin.com/posts/svarunid_stay-at-the-top-of-ai-activity-7282796468950781953--CWY"
   },
   {
     "id": "linkedin-8",
     "platform": "linkedin",
     "content": "Argh... Every post (atleast 9/10) I see is written by AI. Just my opinion, using LLMs to write your content, code or whatever, actually makes you dumb. They do really help us alot when used in a proper way. I regularly use ChatGPT, Claude, Llama & Gemini to extend my perspective, to learn new things and to research about something.",
-    "link": "https://www.linkedin.com/posts/svarunid_argh-every-post-atleast-910-i-see-is-activity-7282651346464395264-wc22?utm_source=share&utm_medium=member_desktop&rcm=ACoAACy_sJwBoBWzbASN4EbO7qUAf6YCdksQZbA"
+    "link": "https://www.linkedin.com/posts/svarunid_argh-every-post-atleast-910-i-see-is-activity-7282651346464395264-wc22"
   },
   {
     "id": "linkedin-9",
     "platform": "linkedin",
     "content": "Smoltoken is now updated to support multi-threading using rayon which speeds up the training of tokenizer by almost 2x than the previous version. Smoltoken is also now a part of https://github.com/smolorg by Maharshi Pandya. Python bindings for smoltoken are on the way.",
-    "link": "https://www.linkedin.com/posts/svarunid_smoltoken-is-now-updated-to-support-multi-threading-activity-7271150098439385089-mXvL?utm_source=share&utm_medium=member_desktop&rcm=ACoAACy_sJwBoBWzbASN4EbO7qUAf6YCdksQZbA"
+    "link": "https://www.linkedin.com/posts/svarunid_smoltoken-is-now-updated-to-support-multi-threading-activity-7271150098439385089-mXvL"
   }
 ]
