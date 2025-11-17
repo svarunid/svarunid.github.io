@@ -1,0 +1,14 @@
+projects[2]:
+  - name: smoltoken
+    description: "High-performance BPE tokenizer library built from scratch in Rust and Python, inspired by OpenAI's tiktoken, achieving performance comparable to Hugging Face's tokenizers"
+    skills[3]: Rust,Python,CI/CD
+    link: "https://github.com/svarunid/smoltoken"
+    publishings[2]{name,url}:
+      crates.io,"https://crates.io/crates/smoltoken"
+      PyPI,"https://pypi.org/project/smoltoken/"
+    highlights[2]: Developed from scratch with performance comparable to industry standards,Set up CI/CD pipelines using GitHub Actions for automated building and distribution
+  - name: voiceflow
+    description: "AI voice agent platform for debt collection, integrating real-time STT, LLM, and TTS pipelines with automated testing and self-improving framework"
+    skills[7]: Python,TypeScript,React.js,FastAPI,LiveKit,PostgreSQL,Twilio
+    link: "https://github.com/svarunid/voiceflow"
+    highlights[3]: "Built complete platform with FastAPI backend, React dashboards, and PostgreSQL for contact & call management",Developed automated testing & self-improving framework that generates synthetic defaulter personas and applies feedback loops,Integrated telephony with LiveKit for outbound calls using Twilio
