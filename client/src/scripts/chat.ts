@@ -5,6 +5,8 @@ import { API_BASE_URL } from "./config";
 import { getChatSession, setChatSession } from "./session";
 import { parseMarkdown } from "./utils/markdown";
 
+const splitMarker = "|split|";
+
 const chatInput = document.getElementById("chatbox") as HTMLInputElement | null;
 const messagesContainer = document.getElementById("messages");
 
@@ -118,32 +120,29 @@ async function sendMessage(message: string): Promise<void> {
         const chunk = decoder.decode(value, { stream: true });
         accumulatedText += chunk;
 
-        const splitMarker = "<|split|>";
         const splitIndex = accumulatedText.indexOf(splitMarker);
-
         if (splitIndex !== -1) {
           const contentBeforeSplit = accumulatedText.substring(0, splitIndex);
           render(
-            renderMessage("agent", contentBeforeSplit, false),
+            renderMessage("agent", contentBeforeSplit.trim(), false),
             currentMessage,
           );
 
-          const newAgentMessage = document.createElement("div");
-          messagesContainer.appendChild(newAgentMessage);
-          render(renderMessage("agent", "", true), newAgentMessage);
-          currentMessage = newAgentMessage;
+          currentMessage = document.createElement("div");
+          messagesContainer.appendChild(currentMessage);
 
           accumulatedText = accumulatedText.substring(
             splitIndex + splitMarker.length,
           );
-        } else {
-          render(renderMessage("agent", accumulatedText, true), currentMessage);
-        }
 
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
       }
 
-      render(renderMessage("agent", accumulatedText, false), currentMessage);
+      render(
+        renderMessage("agent", accumulatedText.trim(), false),
+        currentMessage,
+      );
     }
   } catch (error) {
     console.error("Error sending message:", error);
