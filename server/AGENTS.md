@@ -22,9 +22,6 @@ This file contains server-specific guidelines for AI coding agents working on th
   - Use `--select` to select rule sets.
 - Use `uvx ruff format` to automatically format the codebase according to the Ruff style guide.
 
-### Backend
-The project's backend hosts all the functionalities related to database access, agent interface, calling third-party services, and more. It is built on Python with FastAPI & Agno (for agents).
-
 #### FastAPI
 - Use type hints for all function parameters and return values
 - Use Pydantic models for request and response validation
@@ -37,8 +34,3 @@ The project's backend hosts all the functionalities related to database access, 
 - Use environment variables for sensitive information like API keys and database credentials
 
 Use the context7 MCP server with library ID `websites/fastapi_tiangolo` to refer to the FastAPI library.
-
-#### Agno
-Agno is a Python framework for building multi-agent systems with memory & tools.
-
-Use the contex7 MCP server with library ID `websites/agno` to refer to the Agno library.
