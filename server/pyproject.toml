@@ -1,12 +1,50 @@
 [project]
-name = "server"
+name = "app"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
-    "agno>=2.2.3",
     "fastapi>=0.120.2",
     "fastapi-cli[standard-no-fastapi-cloud-cli]>=0.0.14",
-    "python-multipart>=0.0.20",
-    "sqlmodel>=0.0.27",
+    "mcp>=1.21.2",
+    "openrouter>=0.0.19",
+    "pydantic>=2.12.0",
+    "pydantic-settings>=2.12.0",
+    "sqlalchemy>=2.0.44",
     "uvicorn[standard]>=0.38.0",
 ]
+
+[tool.ruff]
+preview = true
+line-length = 150
+indent-width = 2
+
+[tool.ruff.lint]
+select = [
+  "F",  # Pyflakes
+  "W6",
+  "E71",
+  "E72",
+  "E112",   # no-indented-block
+  "E113",   # unexpected-indentation
+  "E203",   # whitespace-before-punctuation
+  "E272",   # multiple-spaces-before-keyword
+  "E275",   # missing-whitespace-after-keyword
+  "E303",   # too-many-blank-lines
+  "E304",   # blank-line-after-decorator
+  "E501",   # line-too-long
+  "E702",   # multiple-statements-on-one-line-semicolon
+  "E703",   # useless-semicolon
+  "E731",   # lambda-assignment
+  "W191",   # tab-indentation
+  "W291",   # trailing-whitespace
+  "W293",   # blank-line-with-whitespace
+  "UP039",  # unnecessary-class-parentheses
+  "C416",   # unnecessary-comprehension
+  "RET506", # superfluous-else-raise
+  "RET507", # superfluous-else-continue
+  "A",      # builtin-variable-shadowing, builtin-argument-shadowing, builtin-attribute-shadowing
+  "FURB110",# if-exp-instead-of-or-operator
+]
+
+[tool.ruff.format]
+exclude = ["*"]
