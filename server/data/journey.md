@@ -36,7 +36,7 @@ I have my own unique way of approaching things (maybe it's not that unique). Bef
 
 I'm always adopting tools that enhance my productivity and help me work faster and better. [Zed](https://zed.dev/) is my default IDE. For Python projects, I use [uv](https://docs.astral.sh/uv/). AI coding agents have massively enhanced my speed of execution and extended my axis of discovery - [Factory](https://factory.ai/), [Crush](https://github.com/charmbracelet/crush), [Warp](https://warp.dev/), and [Claude Code](https://claude.ai/code) are among my favorites. I use [Mammouth](https://mammouth.ai/) to chat with different LLMs in one place, though not that often.
 
-## Future Aspirations
+## Technical Expertise
 
 As for my technical expertise, I have strong fundamentals in building scalable backend systems with AI at the core. I've built everything from web apps to backend servers, scaled them to handle heavy traffic, and created meaningful business impact. I'm experienced with multi-agent systems, particularly with Google's ADK, and I'm comfortable with end-to-end ownership from code to deployment. My focus has always been on backend and AI, though I've dabbled in mobile and other stacks too.
 
