@@ -10,6 +10,8 @@ dependencies = [
     "pydantic>=2.12.0",
     "pydantic-settings>=2.12.0",
     "sqlalchemy>=2.0.44",
+    "sqliteai-vector>=0.9.52",
+    "sqlmodel>=0.0.27",
     "uvicorn[standard]>=0.38.0",
 ]
 
