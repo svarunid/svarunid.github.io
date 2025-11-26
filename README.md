@@ -1,4 +1,4 @@
-# Svarun's Personal Website & Agent
+# Personal Website & Agent
 
 This project is a monorepo containing my personal website and a sophisticated AI agent companion. The system is designed to be a living digital representation of myself, capable of interacting with visitors through a chat interface powered by a custom knowledge base.
 
