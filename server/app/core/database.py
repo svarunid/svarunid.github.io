@@ -6,9 +6,13 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 
 class Database:
-  """Database class for managing database connections."""
+  """Manage database connections & sessions."""
   def __init__(self, db_url: str):
-    """Initialize the database connection."""
+    """Initialize the database connection.
+    
+    Args:
+      db_url: Path to the SQLite database file.
+    """
     self._engine = create_async_engine(
       f"sqlite+aiosqlite:///{db_url}",
       echo=False,
@@ -17,6 +21,11 @@ class Database:
     self._sessionmaker = async_sessionmaker(self._engine, class_=AsyncSession)
 
   async def initialize(self):
+    """Initialize database schema and load SQLite vector extension.
+    
+    Loads the sqlite-vector extension for vector similarity operations
+    and creates all database tables defined in SQLModel metadata.
+    """
     async with self._engine.begin() as conn:
       sqlite_vector = importlib.resources.files("sqlite_vector.binaries") / "vector"
 
@@ -28,9 +37,17 @@ class Database:
       await conn.run_sync(SQLModel.metadata.create_all)
 
   def session(self):
-    """Get a new database session."""
+    """Create a new database session.
+    
+    Returns:
+      AsyncSession: A new async database session.
+    """
     return self._sessionmaker()
 
   async def close(self):
-    """Close the database connection."""
+    """Close the database connection and dispose of the engine.
+    
+    Should be called during application shutdown to properly clean up
+    database resources.
+    """
     await self._engine.dispose()

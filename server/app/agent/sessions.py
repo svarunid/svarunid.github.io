@@ -7,8 +7,18 @@ from sqlmodel import Field, SQLModel, select
 
 
 class Session(SQLModel, table=True):
-  """
-  Session stores conversation turns between user and agent along with metadata.
+  """Database model for storing conversation sessions.
+  
+  Stores conversation turns between user and agent along with metadata.
+  Each session is associated with a user and contains a list of messages.
+  
+  Attributes:
+    id: Unique session identifier.
+    user: User identifier associated with this session.
+    meta: Metadata dictionary for additional session information.
+    messages: List of conversation messages in chronological order.
+    created_at: Timestamp when the session was created.
+    updated_at: Timestamp when the session was last updated.
   """
   id: str = Field(primary_key=True)
   user: str = Field(index=True)
@@ -18,26 +28,27 @@ class Session(SQLModel, table=True):
   updated_at: datetime = Field(sa_column=Column(DateTime, server_default=func.now(), onupdate=func.now()))
 
 class Sessions:
-  """
-  A session store for persist & manage sessions in a database.
-
-  Args:
-    db: SQL Database instance.
+  """Session store for persisting and managing conversation sessions.
+  
+  Provides methods for creating, retrieving, updating, and deleting sessions
+  in a database.
+  
+  Attributes:
+    db: Database instance for session storage.
   """
 
   def __init__(self, db):
     self.db = db
 
   async def create_session(self, uid: str, sid: str) -> Session:
-    """
-    Create a new session.
-
+    """Create a new conversation session.
+    
     Args:
-      uid (str): User ID.
-      sid (str): Session ID.
-
+      uid: User identifier.
+      sid: Session identifier (should be unique).
+    
     Returns:
-      Session: A session instance.
+      Session: The newly created session instance.
     """
     async with self.db.session() as dbs:
       session = Session(id=sid, user=uid, meta={}, messages=[])
@@ -47,15 +58,16 @@ class Sessions:
       return session
 
   async def get_session(self, *, uid: Optional[str] = None, sid: Optional[str] = None) -> List[Session]:
-    """
-    Get a session by user ID or session ID.
-
+    """Retrieve session(s) by user ID or session ID.
+    
     Args:
-      uid (str, optional): User ID.
-      sid (str, optional): Session ID.
-
+      uid: Optional user identifier to retrieve all sessions for a user.
+      sid: Optional session identifier to retrieve a specific session.
+    
     Returns:
-      List[Session]: A list of sessions.
+      List[Session]: List of matching sessions. Returns a single-item list
+        if sid is provided, multiple sessions if uid is provided, or an
+        empty list if no matches are found.
     """
     async with self.db.session() as dbs:
       if sid:
@@ -67,6 +79,11 @@ class Sessions:
       return []
 
   async def update_session(self, session: Session) -> None:
+    """Update an existing session in the database.
+    
+    Args:
+      session: Session instance with updated data to persist.
+    """
     async with self.db.session() as dbs:
       dbs.add(session)
       await dbs.commit()
@@ -82,6 +99,11 @@ class Sessions:
   #       await dbs.commit()
 
   async def delete_session(self, sid: str):
+    """Delete a session from the database.
+    
+    Args:
+      sid: Session identifier of the session to delete.
+    """
     async with self.db.session() as dbs:
       result = await dbs.exec(select(Session).where(Session.id == sid))
       session = result.first()

@@ -14,6 +14,17 @@ from ..core import Database, OpenRouterClient
 
 
 class Content(SQLModel, table=True):
+  """Database model for storing document content chunks.
+  
+  Attributes:
+    id: Unique identifier for the content.
+    meta: Metadata dictionary for additional information.
+    content: The actual text content.
+    chash: SHA-256 hash of the content for deduplication.
+    fhash: SHA-256 hash of the source file.
+    created_at: Timestamp when the content was created.
+    updated_at: Timestamp when the content was last updated.
+  """
   id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
   meta: Dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
   content: str = Field(sa_column=Column(Text))
@@ -29,6 +40,19 @@ class Content(SQLModel, table=True):
     return f"Content(id={self.id}, content={self.content})"
 
 class Question(SQLModel, table=True):
+  """Database model for storing generated questions with embeddings.
+  
+  Each question is associated with a content chunk and includes a vector
+  embedding for semantic search.
+  
+  Attributes:
+    id: Unique identifier for the question.
+    cid: Foreign key reference to the associated Content.
+    meta: Metadata dictionary for filtering and categorization.
+    question: The question text.
+    embedding: Binary-encoded vector embedding of the question.
+    created_at: Timestamp when the question was created.
+  """
   id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
   cid: str = Field(foreign_key="content.id")
   meta: Dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
@@ -37,11 +61,24 @@ class Question(SQLModel, table=True):
   created_at: datetime = Field(sa_column=Column(DateTime, server_default=func.now()))
 
 class MarkdownChunker:
+  """Chunk markdown documents by sections with reference link normalization.
+  
+  Splits markdown content by headers and converts inline links and images
+  to reference-style links for cleaner chunking.
+  """
   SECTION = re.compile(r'^(#{1,6})\s+(.*)')
   LINK = re.compile(r'\[([^\]]+)\]\(([^)]+)\)')
   IMG = re.compile(r'!\[([^\]]*)\]\(([^)]+)\)')
 
   def __call__(self, file: TextIO):
+    """Chunk a markdown file into sections.
+    
+    Args:
+      file: Text file object containing markdown content.
+      
+    Returns:
+      List[str]: List of markdown content chunks, one per section.
+    """
     def ri(m):
       alt, url = m.group(1), m.group(2)
       ref_num = len(cur["refs"]) + 1
@@ -72,18 +109,50 @@ class MarkdownChunker:
     return chunks
 
 class Embedder:
+  """Generate vector embeddings using OpenRouter API.
+  
+  Attributes:
+    model: Name of the embedding model to use.
+    client: OpenRouter client for API interactions.
+  """
   def __init__(self, model: str, client: OpenRouterClient):
     self.model = model
     self.client = client
 
   async def get_dimension(self):
+    """Get the dimensionality of the embedding model.
+    
+    Returns:
+      int: Number of dimensions in the embedding vector.
+    """
     emb = await self.client.embed(self.model, "abc")
     return len(emb)
 
   async def embed(self, text: str):
+    """Generate an embedding vector for the given text.
+    
+    Args:
+      text: Text content to embed.
+      
+    Returns:
+      List[float]: Vector embedding of the text.
+    """
     return await self.client.embed(self.model, text)
 
 class Knowledge:
+  """Knowledge base with vector search and automatic question generation.
+  
+  Manages a knowledge base by indexing documents, generating questions,
+  and providing semantic search capabilities using vector embeddings.
+  
+  Attributes:
+    db: Database instance for storage.
+    description: Human-readable description of the knowledge base.
+    embedder: Embedder instance for generating vectors.
+    filters: Optional schema for metadata filtering.
+    model: Name of the language model for question generation.
+    client: OpenRouter client for API interactions.
+  """
   def __init__(
     self, db: Database, description: str, embedder: Embedder, model: str, client: OpenRouterClient,
     filters: Optional[Dict[str, Any]] = None
@@ -99,7 +168,11 @@ class Knowledge:
     self._initialized = False
 
   async def initialize(self):
-    """Initialize vector extension for the Question table."""
+    """Initialize the vector search extension for the Question table.
+    
+    Sets up the sqlite-vector extension with the appropriate dimension
+    for the embedding model. Should be called once before using the knowledge base.
+    """
     if self._initialized: return
 
     async with self.db.session() as dbs:
@@ -112,7 +185,19 @@ class Knowledge:
     self._initialized = True
 
   async def search(self, query: str, k: int = 5, filter: Dict[str, Any] = None) -> List[Content]:
-    """Search for relevant content using vector similarity."""
+    """Search for relevant content using vector similarity.
+    
+    Performs semantic search by embedding the query and finding the most similar
+    questions in the database, then returning their associated content.
+    
+    Args:
+      query: Natural language search query.
+      k: Number of top results to return (default: 5).
+      filter: Optional metadata filters to constrain results.
+      
+    Returns:
+      List[Content]: List of matching content chunks ordered by relevance.
+    """
     await self.initialize()
 
     embedding = await self.embedder.embed(query)
@@ -151,7 +236,18 @@ class Knowledge:
       return contents
 
   async def index(self, file: str, chunker: Callable):
-    """Index a document by chunking, generating questions, and storing embeddings."""
+    """Index a document by chunking, generating questions, and storing embeddings.
+    
+    Processes a document by:
+    1. Chunking the content using the provided chunker
+    2. Generating questions that each chunk would answer
+    3. Creating vector embeddings for each question
+    4. Storing everything in the database
+    
+    Args:
+      file: Path to the document file to index.
+      chunker: Callable that takes a file object and returns content chunks.
+    """
     await self.initialize()
     with open(file, 'r', encoding='utf-8') as f:
       chunks = chunker(f)
@@ -177,6 +273,20 @@ class Knowledge:
       await dbs.commit()
 
   async def _generate_questions(self, chunk: str) -> List[str]:
+    """Generate questions that a content chunk would answer.
+    
+    Uses the language model to generate comprehensive questions with optional
+    metadata extraction based on the configured filters.
+    
+    Args:
+      chunk: Text content to generate questions for.
+      
+    Returns:
+      List[str]: List of generated questions with metadata.
+      
+    Raises:
+      ValueError: If the model fails to generate valid JSON output.
+    """
     prompt = """
     Given the text provided, generate a comprehensive array of questions that the text would answer.
     Return the response strictly as a valid JSON array objects with a `question` key containing the question.

@@ -7,11 +7,30 @@ from ..config import settings
 
 
 class OpenRouterClient:
+  """Client for interacting with the OpenRouter API.
+  
+  Provides methods for generating embeddings and streaming text generation
+  with support for function calling and structured output formats.
+  """
   def __init__(self, api_key: Optional[str] = None):
+    """Initialize the OpenRouter client.
+    
+    Args:
+      api_key: Optional API key for OpenRouter. If not provided, uses the
+      key from application settings.
+    """
     self._client = OpenRouter(api_key=api_key or settings.openrouter_api_key)
 
   async def embed(self, model: str, content: str) -> List[float]:
-    """Generate embeddings for text content using OpenRouter API."""
+    """Generate embeddings for text content using OpenRouter API.
+    
+    Args:
+      model: Name of the embedding model to use.
+      content: Text content to generate embeddings for.
+      
+    Returns:
+      List[float]: Vector embedding representation of the input text.
+    """
     response = await self._client.embeddings.generate_async(
       model=model,
       input=content
@@ -22,6 +41,25 @@ class OpenRouterClient:
     self, model: str, messages: List[Dict[str, Any]], prompt: Optional[str] = None,
     format: Optional[Dict[str, Any]] = None, tools: Optional[Dict[str, Any]] = None
   ):
+    """Generate streaming text responses with optional function calling.
+    
+    Streams responses from the OpenRouter API, handling text deltas, function calls,
+    and structured message outputs.
+    
+    Args:
+      model: Name of the language model to use.
+      messages: List of conversation messages in OpenRouter format.
+      prompt: Optional system prompt to prepend to messages.
+      format: Optional structured output format specification.
+      tools: Optional dictionary of available tools for function calling.
+      
+    Yields:
+      Dict[str, Any]: Stream events containing deltas, messages, or function calls.
+        Event types include:
+        - {"type": "delta", "delta": str}: Text generation delta.
+        - {"type": "message", "message": dict}: Complete message object.
+        - {"type": "functions", "functions": dict}: Function call results.
+    """
     if prompt: messages = [{"type": "message", "role": "system", "content": [{"type": "input_text", "text": prompt}]}] + messages
 
     stream = await self._client.beta.responses.send_async(
