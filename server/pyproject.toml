@@ -3,8 +3,10 @@ name = "app"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "aiosqlite>=0.21.0",
     "fastapi>=0.120.2",
     "fastapi-cli[standard-no-fastapi-cloud-cli]>=0.0.14",
+    "greenlet>=3.2.4",
     "mcp>=1.21.2",
     "openrouter>=0.0.19",
     "pydantic>=2.12.0",
@@ -22,7 +24,8 @@ indent-width = 2
 
 [tool.ruff.lint]
 select = [
-  "F",  # Pyflakes
+  "I",      # isort
+  "F",      # Pyflakes
   "W6",
   "E71",
   "E72",
