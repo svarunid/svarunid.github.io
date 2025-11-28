@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 from ..core import OpenRouterClient
 from .knowledge import Knowledge
@@ -8,13 +8,13 @@ from .tools import FunctionTool, MCPTool
 
 class Agent:
   """AI agent for managing conversational interactions.
-  
+
   Orchestrates conversations using language models with support for:
   - Function/tool calling via MCP and custom functions
   - Knowledge base semantic search
   - Session persistence and management
   - Streaming response generation
-  
+
   Attributes:
     model: Name of the language model to use.
     client: OpenRouter API client for model interactions.
@@ -42,7 +42,7 @@ class Agent:
 
   async def initialize(self):
     """Initialize the agent by setting up tools and knowledge base.
-    
+
     Connects to MCP tools, registers function tools, and initializes the knowledge
     base. Updates system instructions with available tools and knowledge base info.
     Should be called once before using the agent.
@@ -54,14 +54,15 @@ class Agent:
       # TOOLS
       Tools allow you to perform actions via function calls. Call appropriate tools based on the instructions and the user's query.
 
-      A list of available tools:
+      ## TOOL INSTRUCTIONS
       """
       for t in self.tools:
         if isinstance(t, FunctionTool):
           self._tools[t.name] = t
         elif isinstance(t, MCPTool):
           await t.connect()
-          self.instructions += "\n- " + t.instructions
+          if t.instructions:
+            self.instructions += "\n- " + t.instructions
           for m in await t.get_tools():
             self._tools[m.name] = m
 
@@ -107,28 +108,29 @@ class Agent:
 
   async def close(self):
     """Clean up agent resources.
-    
+
     Closes connections to MCP tools and performs cleanup.
     Should be called during application shutdown.
     """
     if not self.is_initialized: return
 
-    for t in self.tools:
-      if isinstance(t, MCPTool):
-        await t.close()
+    if self.tools:
+      for t in self.tools:
+        if isinstance(t, MCPTool):
+          await t.close()
 
     self.is_initialized = False
 
   async def _generate_with_functions(self, session):
     """Generate responses with function calling support.
-    
+
     Internal method that handles streaming generation with automatic function
     execution. When functions are called, executes them and recursively continues
     generation with the results.
-    
+
     Args:
       session: Session object containing conversation messages.
-      
+
     Yields:
       str: Text deltas from the streaming response.
     """
@@ -155,24 +157,26 @@ class Agent:
 
   async def __call__(self, uid: str, sid: str, message: str):
     """Process a user message and generate a streaming response.
-    
+
     Main entry point for agent interactions. Retrieves or creates a session,
     adds the user message, and generates a streaming response.
-    
+
     Args:
       uid: User identifier.
       sid: Session identifier.
       message: User's message text.
-      
+
     Yields:
       str: Text deltas from the streaming response.
     """
-    message = {"type": "message", "role": "user", "content": [{"type": "input_text", "text": message}]}
+    message: Dict[str, Any] = {
+      "type": "message", "role": "user", "content": [{"type": "input_text", "text": message}]
+    }
 
     session = await self.sessions.get_session(sid=sid)
     if not session: session = await self.sessions.create_session(uid, sid)
 
-    session.messages.append(message)
+    session.messages.append(message) # type: ignore
     try:
       async for chunk in self._generate_with_functions(session):
         yield chunk

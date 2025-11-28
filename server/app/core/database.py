@@ -9,7 +9,7 @@ class Database:
   """Manage database connections & sessions."""
   def __init__(self, db_url: str):
     """Initialize the database connection.
-    
+
     Args:
       db_url: Path to the SQLite database file.
     """
@@ -22,7 +22,7 @@ class Database:
 
   async def initialize(self):
     """Initialize database schema and load SQLite vector extension.
-    
+
     Loads the sqlite-vector extension for vector similarity operations
     and creates all database tables defined in SQLModel metadata.
     """
@@ -38,7 +38,7 @@ class Database:
 
   def session(self):
     """Create a new database session.
-    
+
     Returns:
       AsyncSession: A new async database session.
     """
@@ -46,7 +46,7 @@ class Database:
 
   async def close(self):
     """Close the database connection and dispose of the engine.
-    
+
     Should be called during application shutdown to properly clean up
     database resources.
     """

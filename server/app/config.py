@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
   """Application configuration settings loaded from environment variables.
-  
+
   Attributes:
     db: Database connection string or path.
     model: Name of the AI model to use for generation.

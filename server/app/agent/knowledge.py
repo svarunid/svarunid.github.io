@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional, TextIO
 
 from sqlalchemy import JSON, Column, DateTime, LargeBinary, Text, text
+from sqlalchemy.orm import Mapped
 from sqlalchemy.sql import func
 from sqlmodel import Field, SQLModel, select
 
@@ -15,7 +16,7 @@ from ..core import Database, OpenRouterClient
 
 class Content(SQLModel, table=True):
   """Database model for storing document content chunks.
-  
+
   Attributes:
     id: Unique identifier for the content.
     meta: Metadata dictionary for additional information.
@@ -25,13 +26,13 @@ class Content(SQLModel, table=True):
     created_at: Timestamp when the content was created.
     updated_at: Timestamp when the content was last updated.
   """
-  id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
-  meta: Dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
-  content: str = Field(sa_column=Column(Text))
-  chash: str = Field(sa_column=Column(Text))
-  fhash: str = Field(sa_column=Column(Text))
-  created_at: datetime = Field(sa_column=Column(DateTime, server_default=func.now()))
-  updated_at: datetime = Field(sa_column=Column(DateTime, server_default=func.now(), onupdate=func.now()))
+  id: Mapped[str] = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
+  meta: Mapped[Dict[str, Any]] = Field(default_factory=dict, sa_column=Column(JSON))
+  content: Mapped[str] = Field(sa_column=Column(Text))
+  chash: Mapped[str] = Field(sa_column=Column(Text))
+  fhash: Mapped[str] = Field(sa_column=Column(Text))
+  created_at: Mapped[datetime] = Field(sa_column=Column(DateTime, server_default=func.now()))
+  updated_at: Mapped[datetime] = Field(sa_column=Column(DateTime, server_default=func.now(), onupdate=func.now()))
 
   def __str__(self):
     return f"Content(id={self.id}, content={self.content})"
@@ -41,10 +42,10 @@ class Content(SQLModel, table=True):
 
 class Question(SQLModel, table=True):
   """Database model for storing generated questions with embeddings.
-  
+
   Each question is associated with a content chunk and includes a vector
   embedding for semantic search.
-  
+
   Attributes:
     id: Unique identifier for the question.
     cid: Foreign key reference to the associated Content.
@@ -53,16 +54,16 @@ class Question(SQLModel, table=True):
     embedding: Binary-encoded vector embedding of the question.
     created_at: Timestamp when the question was created.
   """
-  id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
-  cid: str = Field(foreign_key="content.id")
-  meta: Dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
-  question: str = Field(sa_column=Column(Text))
-  embedding: bytes = Field(sa_column=Column(LargeBinary))
-  created_at: datetime = Field(sa_column=Column(DateTime, server_default=func.now()))
+  id: Mapped[str] = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
+  cid: Mapped[str] = Field(foreign_key="content.id")
+  meta: Mapped[Dict[str, Any]] = Field(default_factory=dict, sa_column=Column(JSON))
+  question: Mapped[str] = Field(sa_column=Column(Text))
+  embedding: Mapped[bytes] = Field(sa_column=Column(LargeBinary))
+  created_at: Mapped[datetime] = Field(sa_column=Column(DateTime, server_default=func.now()))
 
 class MarkdownChunker:
   """Chunk markdown documents by sections with reference link normalization.
-  
+
   Splits markdown content by headers and converts inline links and images
   to reference-style links for cleaner chunking.
   """
@@ -72,10 +73,10 @@ class MarkdownChunker:
 
   def __call__(self, file: TextIO):
     """Chunk a markdown file into sections.
-    
+
     Args:
       file: Text file object containing markdown content.
-      
+
     Returns:
       List[str]: List of markdown content chunks, one per section.
     """
@@ -91,7 +92,7 @@ class MarkdownChunker:
       cur["refs"].append(f"[{ref_num}]: {url}")
       return f"[{alt}][{ref_num}]"
 
-    chunks, cur = [], None
+    chunks, cur = [], {}
     for line in file:
       if not (line := line.strip()): continue
       m = self.SECTION.match(line)
@@ -110,7 +111,7 @@ class MarkdownChunker:
 
 class Embedder:
   """Generate vector embeddings using OpenRouter API.
-  
+
   Attributes:
     model: Name of the embedding model to use.
     client: OpenRouter client for API interactions.
@@ -121,7 +122,7 @@ class Embedder:
 
   async def get_dimension(self):
     """Get the dimensionality of the embedding model.
-    
+
     Returns:
       int: Number of dimensions in the embedding vector.
     """
@@ -130,10 +131,10 @@ class Embedder:
 
   async def embed(self, text: str):
     """Generate an embedding vector for the given text.
-    
+
     Args:
       text: Text content to embed.
-      
+
     Returns:
       List[float]: Vector embedding of the text.
     """
@@ -141,10 +142,10 @@ class Embedder:
 
 class Knowledge:
   """Knowledge base with vector search and automatic question generation.
-  
+
   Manages a knowledge base by indexing documents, generating questions,
   and providing semantic search capabilities using vector embeddings.
-  
+
   Attributes:
     db: Database instance for storage.
     description: Human-readable description of the knowledge base.
@@ -169,7 +170,7 @@ class Knowledge:
 
   async def initialize(self):
     """Initialize the vector search extension for the Question table.
-    
+
     Sets up the sqlite-vector extension with the appropriate dimension
     for the embedding model. Should be called once before using the knowledge base.
     """
@@ -184,17 +185,17 @@ class Knowledge:
 
     self._initialized = True
 
-  async def search(self, query: str, k: int = 5, filter: Dict[str, Any] = None) -> List[Content]:
+  async def search(self, query: str, k: int = 5, filter: Optional[Dict[str, Any]] = None) -> List[Content]:
     """Search for relevant content using vector similarity.
-    
+
     Performs semantic search by embedding the query and finding the most similar
     questions in the database, then returning their associated content.
-    
+
     Args:
       query: Natural language search query.
       k: Number of top results to return (default: 5).
       filter: Optional metadata filters to constrain results.
-      
+
     Returns:
       List[Content]: List of matching content chunks ordered by relevance.
     """
@@ -237,13 +238,13 @@ class Knowledge:
 
   async def index(self, file: str, chunker: Callable):
     """Index a document by chunking, generating questions, and storing embeddings.
-    
+
     Processes a document by:
     1. Chunking the content using the provided chunker
     2. Generating questions that each chunk would answer
     3. Creating vector embeddings for each question
     4. Storing everything in the database
-    
+
     Args:
       file: Path to the document file to index.
       chunker: Callable that takes a file object and returns content chunks.
@@ -264,26 +265,27 @@ class Knowledge:
         dbs.add(content)
         await dbs.flush()
 
-        for question in await self._generate_questions(chunk):
-          embedding = await self.embedder.embed(question["question"])
-          dbs.add(Question(
-            cid=content.id, question=question["question"], meta=question["metadata"],
-            embedding=struct.pack(f"{len(embedding)}f", *embedding)
-          ))
+        if (questions := await self._generate_questions(chunk)):
+          for question in questions:
+            embedding = await self.embedder.embed(question["question"])
+            dbs.add(Question(
+              cid=content.id, question=question["question"], meta=question["metadata"],
+              embedding=struct.pack(f"{len(embedding)}f", *embedding)
+            ))
       await dbs.commit()
 
-  async def _generate_questions(self, chunk: str) -> List[str]:
+  async def _generate_questions(self, chunk: str) -> Optional[List[Dict[str, Any]]]:
     """Generate questions that a content chunk would answer.
-    
+
     Uses the language model to generate comprehensive questions with optional
     metadata extraction based on the configured filters.
-    
+
     Args:
       chunk: Text content to generate questions for.
-      
+
     Returns:
       List[str]: List of generated questions with metadata.
-      
+
     Raises:
       ValueError: If the model fails to generate valid JSON output.
     """
@@ -292,7 +294,7 @@ class Knowledge:
     Return the response strictly as a valid JSON array objects with a `question` key containing the question.
     """
 
-    format = {
+    format: Dict[str, Any] = {
       "type": "json_schema", "strict": "true", "name": "questions",
       "description": "A list of questions that the text would answer.",
       "schema": {

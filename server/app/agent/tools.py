@@ -10,10 +10,10 @@ from mcp.types import CallToolResult
 
 class FunctionTool:
   """Wrapper for custom Python functions as agent tools.
-  
+
   Encapsulates a Python function with metadata for use as an agent tool,
   supporting both synchronous and asynchronous functions.
-  
+
   Attributes:
     name: Unique identifier for the tool.
     description: Human-readable description of what the tool does.
@@ -30,7 +30,7 @@ class FunctionTool:
 
   def to_dict(self) -> Dict[str, Any]:
     """Convert the tool to a dictionary representation.
-    
+
     Returns:
       Dict[str, Any]: Dictionary with tool metadata in OpenRouter format.
     """
@@ -38,12 +38,12 @@ class FunctionTool:
 
   async def __call__(self, **kwargs: Any) -> Any:
     """Execute the tool function with the provided arguments.
-    
+
     Automatically handles both sync and async functions.
-    
+
     Args:
       **kwargs: Keyword arguments to pass to the function.
-      
+
     Returns:
       Any: The return value of the function.
     """
@@ -53,10 +53,10 @@ class FunctionTool:
 
 class MCPTool:
   """Client for Model Context Protocol (MCP) server integration.
-  
+
   Connects to an MCP server and exposes its tools to the agent.
   Manages the connection lifecycle and tool invocation.
-  
+
   Attributes:
     url: URL of the MCP server.
     instructions: Instructions for using the MCP tools.
@@ -71,10 +71,10 @@ class MCPTool:
 
   async def connect(self):
     """Establish connection to the MCP server.
-    
+
     Initializes the MCP client session and prepares for tool invocation.
     Should be called before using get_tools() or call_tool().
-    
+
     Raises:
       Exception: If connection to the MCP server fails.
     """
@@ -93,37 +93,37 @@ class MCPTool:
 
   async def close(self):
     """Close the MCP server connection and clean up resources.
-    
+
     Should be called during agent shutdown to properly release resources.
     """
     await self.exit_stack.aclose()
 
   async def get_tools(self) -> List[FunctionTool]:
     """Retrieve available tools from the MCP server.
-    
+
     Returns:
       List[FunctionTool]: List of function tools available from the MCP server.
-      
+
     Raises:
       RuntimeError: If called before connect() or if not connected.
     """
     if not self.session: raise RuntimeError("MCP Tool not connected")
     result = await self.session.list_tools()
     return [
-      FunctionTool(t.name, t.description, t.inputSchema, partial(self.call_tool, t.name))
+      FunctionTool(t.name, t.description if t.description else "", t.inputSchema, partial(self.call_tool, t.name))
       for t in result.tools
     ]
 
   async def call_tool(self, name: str, **arguments: Any) -> CallToolResult:
     """Invoke a tool on the MCP server.
-    
+
     Args:
       name: Name of the tool to invoke.
       **arguments: Keyword arguments to pass to the tool.
-      
+
     Returns:
       CallToolResult: Result from the MCP tool execution.
-      
+
     Raises:
       RuntimeError: If called before connect() or if not connected.
     """
