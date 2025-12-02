@@ -41,6 +41,7 @@ jobs:
         working-directory: ./client
         env:
           ELEVENTY_ENV: production
+          VITE_API_URL: https://svarunid.tinyleap.org
         run: pnpm run build
 
       - name: Setup Pages
