@@ -8,10 +8,10 @@ COPY pyproject.toml uv.lock ./
 
 RUN uv sync --frozen --no-dev
 
-COPY . .
-
-RUN
+COPY app ./app
+COPY data ./data
+COPY prompt.txt actions.txt ./
 
 EXPOSE 8000
 
-CMD uv run python scripts/index_knowledge.py data/* && uv run fastapi run src/main.py
+CMD ["uv", "run", "fastapi", "run", "app/main.py", "--host", "0.0.0.0", "--port", "8000"]
