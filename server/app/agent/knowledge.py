@@ -7,7 +7,6 @@ from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional, TextIO
 
 from sqlalchemy import JSON, Column, DateTime, LargeBinary, Text, text
-from sqlalchemy.orm import Mapped
 from sqlalchemy.sql import func
 from sqlmodel import Field, SQLModel, select
 
@@ -26,13 +25,13 @@ class Content(SQLModel, table=True):
     created_at: Timestamp when the content was created.
     updated_at: Timestamp when the content was last updated.
   """
-  id: Mapped[str] = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
-  meta: Mapped[Dict[str, Any]] = Field(default_factory=dict, sa_column=Column(JSON))
-  content: Mapped[str] = Field(sa_column=Column(Text))
-  chash: Mapped[str] = Field(sa_column=Column(Text))
-  fhash: Mapped[str] = Field(sa_column=Column(Text))
-  created_at: Mapped[datetime] = Field(sa_column=Column(DateTime, server_default=func.now()))
-  updated_at: Mapped[datetime] = Field(sa_column=Column(DateTime, server_default=func.now(), onupdate=func.now()))
+  id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
+  meta: Dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
+  content: str = Field(sa_column=Column(Text))
+  chash: str = Field(sa_column=Column(Text))
+  fhash: str = Field(sa_column=Column(Text))
+  created_at: datetime = Field(sa_column=Column(DateTime, server_default=func.now()))
+  updated_at: datetime = Field(sa_column=Column(DateTime, server_default=func.now(), onupdate=func.now()))
 
   def __str__(self):
     return f"Content(id={self.id}, content={self.content})"
@@ -54,12 +53,12 @@ class Question(SQLModel, table=True):
     embedding: Binary-encoded vector embedding of the question.
     created_at: Timestamp when the question was created.
   """
-  id: Mapped[str] = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
-  cid: Mapped[str] = Field(foreign_key="content.id")
-  meta: Mapped[Dict[str, Any]] = Field(default_factory=dict, sa_column=Column(JSON))
-  question: Mapped[str] = Field(sa_column=Column(Text))
-  embedding: Mapped[bytes] = Field(sa_column=Column(LargeBinary))
-  created_at: Mapped[datetime] = Field(sa_column=Column(DateTime, server_default=func.now()))
+  id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)
+  cid: str = Field(foreign_key="content.id")
+  meta: Dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
+  question: str = Field(sa_column=Column(Text))
+  embedding: bytes = Field(sa_column=Column(LargeBinary))
+  created_at: datetime = Field(sa_column=Column(DateTime, server_default=func.now()))
 
 class MarkdownChunker:
   """Chunk markdown documents by sections with reference link normalization.
@@ -185,7 +184,7 @@ class Knowledge:
 
     self._initialized = True
 
-  async def search(self, query: str, k: int = 5, filter: Optional[Dict[str, Any]] = None) -> List[Content]:
+  async def search(self, query: str, k: int = 5, filter: Optional[Dict[str, Any]] = None) -> str:
     """Search for relevant content using vector similarity.
 
     Performs semantic search by embedding the query and finding the most similar
@@ -226,15 +225,20 @@ class Knowledge:
           LIMIT :limit
         """
 
-      result = await dbs.exec(text(query), {"query": struct.pack(f"{len(embedding)}f", *embedding), "limit": k})
+      result = await dbs.exec(
+        text(query),
+        params={"query": struct.pack(f"{len(embedding)}f", *embedding), "limit": k}
+      )
       questions = result.fetchall()
 
-      if not questions: return []
+      if not questions: return json.dumps([])
 
-      result = await dbs.exec(select(Content).where(Content.id.in_([q.cid for q in questions])))
+      result = await dbs.exec(
+        select(Content).where(Content.id.in_([q.cid for q in questions])) # type: ignore
+      )
       contents = result.all()
 
-      return contents
+      return json.dumps([str(c) for c in contents])
 
   async def index(self, file: str, chunker: Callable):
     """Index a document by chunking, generating questions, and storing embeddings.

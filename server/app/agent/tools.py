@@ -1,4 +1,5 @@
 import inspect
+import json
 from contextlib import AsyncExitStack
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional
@@ -114,7 +115,7 @@ class MCPTool:
       for t in result.tools
     ]
 
-  async def call_tool(self, name: str, **arguments: Any) -> CallToolResult:
+  async def call_tool(self, name: str, **arguments: Any) -> str:
     """Invoke a tool on the MCP server.
 
     Args:
@@ -128,4 +129,5 @@ class MCPTool:
       RuntimeError: If called before connect() or if not connected.
     """
     if not self.session: raise RuntimeError("MCP Tool not connected")
-    return await self.session.call_tool(name, arguments)
+    result = await self.session.call_tool(name, arguments)
+    return json.dumps([c.model_dump() for c in result.content])

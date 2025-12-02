@@ -36,10 +36,7 @@ class OpenRouterClient:
       input=content
     )
 
-    if response.status_code != 200:
-      raise ValueError(f"OpenRouter API error: {response.status_code}")
-
-    return response.data[0].embedding
+    return response.data[0].embedding # type: ignore
 
   async def generate(
     self, model: str, messages: List[Dict[str, Any]], prompt: Optional[str] = None,
@@ -83,7 +80,7 @@ class OpenRouterClient:
             if item.type == "function_call":
               functions[item.id] = {"id": item.id, "type": item.type, "name": item.name, "call_id": item.call_id}
           case "response.function_call_arguments.done":
-            functions[event.item.id]["arguments"] = json.loads(event.item.arguments)
+            functions[event.item_id]["arguments"] = event.arguments
           case "response.output_text.delta":
             yield {"type": "delta", "delta": event.delta}
           case "response.output_text.done": pass
@@ -92,4 +89,4 @@ class OpenRouterClient:
             if item.type == "message":
               yield {"type": "message", "message": item.model_dump()}
           case "response.completed":
-            yield {"type": "functions", "functions": functions}
+            if functions: yield {"type": "functions", "functions": list(functions.values())}

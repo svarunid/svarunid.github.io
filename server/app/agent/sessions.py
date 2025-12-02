@@ -1,8 +1,7 @@
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from sqlalchemy import JSON, Column, DateTime
-from sqlalchemy.orm import Mapped
 from sqlalchemy.sql import func
 from sqlmodel import Field, SQLModel, select
 
@@ -21,12 +20,12 @@ class Session(SQLModel, table=True):
     created_at: Timestamp when the session was created.
     updated_at: Timestamp when the session was last updated.
   """
-  id: Mapped[str] = Field(primary_key=True)
-  user: Mapped[str] = Field(index=True)
-  meta: Mapped[Dict[str, Any]] = Field(default_factory=dict, sa_column=Column(JSON))
-  messages: Mapped[List[Dict[str, Any]]] = Field(default_factory=list, sa_column=Column(JSON))
-  created_at: Mapped[datetime] = Field(sa_column=Column(DateTime, server_default=func.now()))
-  updated_at: Mapped[datetime] = Field(sa_column=Column(DateTime, server_default=func.now(), onupdate=func.now()))
+  id: str = Field(primary_key=True)
+  user: str = Field(index=True)
+  meta: Dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
+  messages: List[Dict[str, Any]] = Field(default_factory=list, sa_column=Column(JSON))
+  created_at: datetime = Field(sa_column=Column(DateTime, server_default=func.now()))
+  updated_at: datetime = Field(sa_column=Column(DateTime, server_default=func.now(), onupdate=func.now()))
 
 class Sessions:
   """Session store for persisting and managing conversation sessions.
@@ -58,7 +57,9 @@ class Sessions:
       await dbs.refresh(session)
       return session
 
-  async def get_session(self, *, uid: Optional[str] = None, sid: Optional[str] = None) -> List[Session]:
+  async def get_session(
+    self, *, uid: Optional[str] = None, sid: Optional[str] = None
+  ) -> Optional[Union[Session, List[Session]]]:
     """Retrieve session(s) by user ID or session ID.
 
     Args:
@@ -73,31 +74,26 @@ class Sessions:
     async with self.db.session() as dbs:
       if sid:
         result = await dbs.exec(select(Session).where(Session.id == sid))
-        return [result.first()]
+        return result.first()
       if uid:
         result = await dbs.exec(select(Session).where(Session.user == uid))
         return result.all()
-      return []
+      return None
 
-  async def update_session(self, session: Session) -> None:
+  async def update_session(self, sid: str, messages: List[Dict[str, Any]]):
     """Update an existing session in the database.
 
     Args:
-      session: Session instance with updated data to persist.
+      sid: Session identifier of the session to update.
+      messages: List of messages to update the session with.
     """
     async with self.db.session() as dbs:
-      dbs.add(session)
-      await dbs.commit()
-      await dbs.refresh(session)
-
-  # async def update_session(self, sid: str, context: List[str], messages: List[Dict[str, Any]]):
-  #   async with self.db.session() as dbs:
-  #     result = await dbs.exec(select(Session).where(Session.id == sid))
-  #     session = result.first()
-  #     if session:
-  #       session.context = context
-  #       session.messages = messages
-  #       await dbs.commit()
+      result = await dbs.exec(select(Session).where(Session.id == sid))
+      session = result.first()
+      if session:
+        session.messages = messages
+        dbs.add(session)
+        await dbs.commit()
 
   async def delete_session(self, sid: str):
     """Delete a session from the database.
