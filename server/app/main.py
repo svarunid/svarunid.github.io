@@ -63,6 +63,7 @@ app.add_middleware(
   allow_credentials=True,
   allow_methods=["*"],
   allow_headers=["*"],
+  expose_headers=["X-Chat-UID", "X-Chat-SID"],
 )
 
 app.include_router(admin.router)
@@ -77,7 +78,6 @@ async def chat(
   if not x_chat_sid: x_chat_sid = str(uuid.uuid4())
 
   body = await request.json()
-  print(body)
   return StreamingResponse(
     app.state.agent(x_chat_uid, x_chat_sid, body["message"]),
     headers={"X-Chat-UID": x_chat_uid, "X-Chat-SID": x_chat_sid}
