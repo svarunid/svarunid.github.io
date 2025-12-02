@@ -1,0 +1,35 @@
+name: Continuous Deployment to DigitalOcean
+
+on:
+  push:
+    tags:
+      - "server-v*"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Containers via SSH
+        uses: appleboy/ssh-action@v1.2.4
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: deployer
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: server/docker-compose.yml
+          target: ~/zhura/docker-compose.yml
+          script: |
+            cd ~/zhura/
+
+            export DB="${{ secrets.DB }}"
+            export COMPOSIO_MCP_URL="${{ secrets.COMPOSIO_MCP_URL }}"
+            export OPENROUTER_API_KEY="${{ secrets.OPENROUTER_API_KEY }}"
+
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p "${{ secrets.DOCKER_PASSWORD }}"
+
+            docker compose pull
+
+            docker compose up -d --force-recreate

@@ -10,7 +10,7 @@ RUN uv sync --frozen --no-dev
 
 COPY app ./app
 COPY data ./data
-COPY prompt.txt actions.txt ./
+COPY prompt.txt actions.txt zhura.db ./
 
 EXPOSE 8000
 
