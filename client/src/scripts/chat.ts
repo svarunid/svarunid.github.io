@@ -39,13 +39,13 @@ if (chatInput && messagesContainer) {
 function getChatSession(): ChatSession {
   return {
     uid: localStorage.getItem("uid"),
-    sid: sessionStorage.getItem("chat_sid")
-  }
+    sid: sessionStorage.getItem("sid"),
+  };
 }
 
 function setChatSession(uid: string, sid: string): void {
   localStorage.setItem("uid", uid);
-  sessionStorage.setItem("chat_sid", sid);
+  sessionStorage.setItem("sid", sid);
 }
 
 function renderMessage(
@@ -60,10 +60,10 @@ function renderMessage(
       class="flex w-full ${role === "user" ? "justify-end" : "justify-start"}">
       <div
         class="max-w-[80%] px-4 py-3 rounded-lg ${role === "user"
-      ? "bg-neutral-200 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-50"
-      : "bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50"}">
+          ? "bg-neutral-200 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-50"
+          : "bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50"}">
         ${isLoading
-      ? html`
+          ? html`
               <div class="flex gap-1.5 items-center min-h-5">
                 <span
                   class="w-2 h-2 bg-neutral-500 dark:bg-neutral-400 rounded-full animate-bounce [animation-delay:0s]"></span>
@@ -73,11 +73,11 @@ function renderMessage(
                   class="w-2 h-2 bg-neutral-500 dark:bg-neutral-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
               </div>
             `
-      : html`
+          : html`
               <div
                 class="prose prose-sm prose-neutral dark:prose-invert max-w-none ${streaming
-          ? "animate-pulse"
-          : ""}">
+                  ? "animate-pulse"
+                  : ""}">
                 ${unsafeHTML(parseMarkdown(content))}
               </div>
             `}
@@ -107,8 +107,8 @@ async function sendMessage(message: string): Promise<void> {
       "Content-Type": "application/json",
     };
 
-    if (uid) headers["X-Chat-UID"] = uid;
-    if (sid) headers["X-Chat-SID"] = sid;
+    headers["X-Chat-UID"] = uid || "";
+    headers["X-Chat-SID"] = sid || "";
 
     const response = await fetch(`${API_BASE_URL}/chat`, {
       method: "POST",
