@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   zhura-server:
     image: ${DOCKER_USERNAME}/zhura-server:latest
