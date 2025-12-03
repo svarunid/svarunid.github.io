@@ -32,13 +32,16 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/zhura-server/
-
-            export DB="${{ secrets.DB }}"
-            export COMPOSIO_MCP_URL="${{ secrets.COMPOSIO_MCP_URL }}"
-            export OPENROUTER_API_KEY="${{ secrets.OPENROUTER_API_KEY }}"
-
-            docker login -u ${{ secrets.DOCKER_USERNAME }} -p "${{ secrets.DOCKER_PASSWORD }}"
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
             docker compose pull
 
             docker compose up -d --force-recreate
+
+            docker image prune -f
+        env:
+          DB: ${{ secrets.DB }}
+          COMPOSIO_MCP_URL: ${{ secrets.COMPOSIO_MCP_URL }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
