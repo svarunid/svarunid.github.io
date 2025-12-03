@@ -30,6 +30,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: deployer
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: DB,COMPOSIO_MCP_URL,OPENROUTER_API_KEY,DOCKER_USERNAME,DOCKER_PASSWORD
           script: |
             cd ~/zhura-server/
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
