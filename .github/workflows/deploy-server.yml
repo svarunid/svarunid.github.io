@@ -13,14 +13,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Transfer files via SCP
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: deployer
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: server/docker-compose.yml
+          target: ~/zhura/
+
       - name: Deploy Containers via SSH
         uses: appleboy/ssh-action@v1.2.4
         with:
           host: ${{ secrets.SSH_HOST }}
           username: deployer
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: server/docker-compose.yml
-          target: ~/zhura/docker-compose.yml
           script: |
             cd ~/zhura/
 
