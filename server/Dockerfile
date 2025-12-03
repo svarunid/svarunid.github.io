@@ -9,8 +9,10 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync --frozen --no-dev
 
 COPY app ./app
+COPY zhura.db /app/data/zhura.db
+
 COPY data ./data
-COPY prompt.txt actions.txt zhura.db ./
+COPY prompt.txt actions.txt ./
 
 EXPOSE 8000
 
