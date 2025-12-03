@@ -20,7 +20,9 @@ jobs:
           username: deployer
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: server/docker-compose.yml
-          target: ~/zhura/
+          target: ~/zhura-server/
+          strip_components: 1
+          overwrite: true
 
       - name: Deploy Containers via SSH
         uses: appleboy/ssh-action@v1.2.4
@@ -29,7 +31,7 @@ jobs:
           username: deployer
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ~/zhura/
+            cd ~/zhura-server/
 
             export DB="${{ secrets.DB }}"
             export COMPOSIO_MCP_URL="${{ secrets.COMPOSIO_MCP_URL }}"
