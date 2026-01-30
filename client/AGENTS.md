@@ -1,10 +1,13 @@
 # AGENTS.md (Client)
+
 This file contains client-specific guidelines for AI coding agents working on the frontend of Zhura.
 
 ## Design Guidelines
+
 The section provides guidelines to follow when developing UI components & layouts. Yet at times be creative and take chances to peek out of the guidelines.
 
 ### Core Philosophy
+
 **Dense Information Architecture. Minimal Visual Language.**
 
 - Maximum data density without cognitive overload
@@ -14,6 +17,7 @@ The section provides guidelines to follow when developing UI components & layout
 - Zero decorative elements
 
 ### Color System
+
 - Adopt a low-saturation palette with high contrast for accessibility (WCAG AA minimum)
 - Define 4–6 core colors: neutral grays for backgrounds/text, accents for interactions/states
 - Use systematic coding: e.g., blue for positives/links, red for errors/alerts, green for success
@@ -21,12 +25,14 @@ The section provides guidelines to follow when developing UI components & layout
 - Test for color-blindness; provide alternatives like patterns or icons for differentiation
 
 ### Typography
+
 - Monospace as the default for UI, tables, and labels
 - Mono-blended Sans-serif for headings and longer narrative text
 - Maintain tight line-height and consistent vertical rhythm
 - Avoid italics, decorative weights, and wide tracking
 
 ### Layout & Spacing
+
 - Employ strict 8px grid system for alignment; box elements with subtle borders (1px solid)
 - Incorporate dotted/dashed lines for subtle hierarchy over solid shapes
 - Maintain consistent gutters (16–24px) and margins (multiples of 8px) for breathing room
@@ -34,6 +40,7 @@ The section provides guidelines to follow when developing UI components & layout
 - Structure in linear flows with optional side panels; balance density with zoned whitespace
 
 ### Components
+
 - Use flat shapes with sharp edges and clear boundaries for all UI elements
 - Convey state changes through color and structural shifts only; avoid animation or shadows
 - Design components to feel fast, direct, and obvious—eliminate ambiguity in meaning or affordance
@@ -41,6 +48,7 @@ The section provides guidelines to follow when developing UI components & layout
 - Modularize for reuse: define base styles (e.g., 4px border-radius max, 1px stroke weight) adaptable by context
 
 ### Responsiveness
+
 - Design fluid grids with 4–12 columns; breakpoints at 480px (mobile), 768px (tablet), 1024px+ (desktop)
 - Stack vertically on small screens; use horizontal scroll only for tables with fixed headers
 - Adapt typography sizes: reduce 10–20% below 768px; clamp max-width at 1200px
@@ -48,17 +56,25 @@ The section provides guidelines to follow when developing UI components & layout
 - Use relative units (rem/em) for scalable sizing; media queries for layout shifts
 
 ### Interaction
+
 - Favor subtle animations (200–300ms ease-in-out) for state changes; avoid excess motion
 - Use hover/focus states with outline or scale (1.02x) for clarity, not delight
 - Group related actions in modular blocks; use progressive disclosure for dense content
 
 ## Technical Guidelines
-The project is built on [Tailwind CSS](https://tailwindcss.com/) for styling and vanilla HTML & JS along with [Typescript](https://www.typescriptlang.org/), [HTMX](https://htmx.org/), [Alpine.js](https://alpinejs.dev/)
+
+The project is built on [Tailwind CSS](https://tailwindcss.com/) for styling, [Eleventy](https://www.11ty.dev/) as the templating engine to render markdown, [liquidjs](https://liquidjs.com/) as the template language, [lit-html](https://lit.dev/docs/v1/lit-html/introduction/) for DOM update using HTML templates inside JS, and [Typescript](https://www.typescriptlang.org/).
+
+### Package Manager
+
+This project uses `pnpm` as the package manager. Always use `pnpm` instead of `npm` or `yarn` for installing dependencies and running scripts.
 
 ### Development Workflow
+
 Do not start the development server or build the site unless explicitly requested. The development server is typically running in the background with file watching enabled, so changes will be picked up automatically.
 
 ### TailwindCSS
+
 TailwindCSS is installed as an npm dependency and used through npm scripts.
 
 - Use `pnpm run dev:tailwind` to compile tailwind classes in watch mode.
@@ -68,14 +84,18 @@ TailwindCSS is installed as an npm dependency and used through npm scripts.
   - Add the `-m` flag to minify the output.
 
 The project uses TailwindCSS v4 that add breaking changes to the previous version. Below are a few major changes:
+
 - Import tailwind using a regular CSS `@import "tailwindcss";` statement, not using the `@tailwind` directives.
 - Use native cascade layer `@utility` to define custom utility classes.
+
 ```css
 @utility tab-4 {
   tab-size: 4;
 }
 ```
+
 - Use CSS variables for all design tokens:
+
 ```css
 /* In CSS */
 .custom-element {
@@ -83,6 +103,7 @@ The project uses TailwindCSS v4 that add breaking changes to the previous versio
   font-family: var(--font-sans);
 }
 ```
+
 - Available CSS variable namespaces:
   - `--color-*`: Colors (e.g., `--color-blue-500`)
   - `--font-*`: Font families (e.g., `--font-sans`)
@@ -92,6 +113,7 @@ The project uses TailwindCSS v4 that add breaking changes to the previous versio
   - `--radius-*`: Border radius (e.g., `--radius-md`)
   - `--shadow-*`: Box shadows (e.g., `--shadow-lg`)
 - Override entire namespaces or the whole theme:
+
 ```css
 @theme {
   /* Override all font variables */
@@ -101,7 +123,9 @@ The project uses TailwindCSS v4 that add breaking changes to the previous versio
   --*: initial;
 }
 ```
+
 - Use container queries with `@container` and container-based breakpoints:
+
 ```html
 <!-- Create a container context -->
 <div class="@container">
@@ -111,6 +135,7 @@ The project uses TailwindCSS v4 that add breaking changes to the previous versio
   </div>
 </div>
 ```
+
 - Create custom variants with `@variant` directive:
 
 ```css
@@ -119,15 +144,3 @@ The project uses TailwindCSS v4 that add breaking changes to the previous versio
 ```
 
 Use the `context7` MCP server to with the library ID `/websites/tailwindcss` to refer to all documentation and migration guides.
-
-### Frontend
-The frontend has plain old HTML pages and along libraries that provide HTML attribute based JS functionalities (like HTMX & Alpine.js) and custom web components by Lit to promote component/layout reusability and Typescript for implementing JS modules.
-
-It'll also use [Eleventy](https://www.11ty.dev/) for site generation from markdown information and [liquidjs](https://liquidjs.com/) as a template language.
-
-Use pnpm to install dependencies and run scripts.
-
-Use the context7 MCP server to refer to documentation:
-- For HTMX use the library ID `/websites/htmx`
-- For Alpine.js use the library ID `/websites/alpinejs_dev`
-- For 11ty use the library ID `/11ty/11ty-website`
