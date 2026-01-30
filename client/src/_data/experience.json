@@ -1,8 +1,13 @@
 [
   {
+    "company": "Presidio",
+    "role": "Engineer - Innovation",
+    "duration": "Feb 2025 – Present"
+  },
+  {
     "company": "Cloudside Technologies",
     "role": "AI Engineer",
-    "duration": "Dec 2024 – Present",
+    "duration": "Dec 2024 – Jan 2025",
     "skills": ["Python", "FastAPI", "Google ADK", "LangChain", "LangGraph", "FAISS", "PostgreSQL", "Docker", "GCP"],
     "highlights": [
       "Designed and deployed an AI-based entity extraction system using Gemini to parse contact info from complex construction diagrams, achieving ~92% extraction accuracy",
