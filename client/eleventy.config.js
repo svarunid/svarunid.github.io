@@ -1,8 +1,29 @@
+import EleventyVitePlugin from "@11ty/eleventy-plugin-vite";
+import tailwindcss from "@tailwindcss/vite";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export default function (eleventyConfig) {
-  eleventyConfig.addPassthroughCopy({ "src/styles": "styles" });
-  eleventyConfig.addWatchTarget("src/styles");
+  eleventyConfig.addPlugin(EleventyVitePlugin, {
+    viteOptions: {
+      plugins: [tailwindcss()],
+      resolve: {
+        alias: {
+          "/scripts": path.resolve(__dirname, "src/scripts"),
+          "/styles": path.resolve(__dirname, "src/styles"),
+        },
+      },
+      build: {
+        sourcemap: true,
+      },
+    },
+  });
+
   eleventyConfig.addWatchTarget("src/scripts");
-  eleventyConfig.addWatchTarget("src/components");
+  eleventyConfig.addWatchTarget("src/_includes");
 
   eleventyConfig.addFilter("shuffle", (array) => {
     const shuffled = [...array];

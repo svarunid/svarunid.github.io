@@ -3,24 +3,26 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "pnpm run dev:ts & pnpm run dev:site & pnpm run dev:tailwind",
-    "dev:ts": "vite build --watch",
-    "dev:site": "eleventy --serve",
-    "dev:tailwind": "pnpm exec tailwindcss -i src/styles/input.css -o dist/styles/tailwind.css -w",
-    "build": "pnpm run build:tailwind && pnpm run build:ts && pnpm run build:site",
-    "build:ts": "vite build",
-    "build:site": "ELEVENTY_ENV=production eleventy",
-    "build:tailwind": "pnpm exec tailwindcss -i src/styles/input.css -o dist/styles/tailwind.css -m",
-    "clean": "rm -rf dist"
+    "dev": "eleventy --serve",
+    "build": "ELEVENTY_ENV=production eleventy",
+    "clean": "rm -rf dist",
+    "postinstall": "cd .. && husky client/.husky"
   },
   "packageManager": "pnpm@10.20.0",
   "private": "true",
+  "lint-staged": {
+    "*": "prettier --write --ignore-unknown"
+  },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
+    "@11ty/eleventy-plugin-vite": "^7.0.0",
     "@shopify/prettier-plugin-liquid": "^1.10.0",
-    "@tailwindcss/cli": "^4.0.0",
     "@tailwindcss/typography": "^0.5.19",
-    "tailwindcss": "^4.0.0",
+    "@tailwindcss/vite": "^4.1.18",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
     "vite": "^7.1.12"
   },
