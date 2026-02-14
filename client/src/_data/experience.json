@@ -2,7 +2,12 @@
   {
     "company": "Presidio",
     "role": "Engineer - Innovation",
-    "duration": "Feb 2025 – Present"
+    "duration": "Feb 2025 – Present",
+    "skills": ["Python", "JS/TS", "AWS", "LangChain", "CI/CD"],
+    "highlights": [
+      "Worked on GitHub integration for Oswald (internal AI code PR/MR review tool)",
+      "Building Presidio's AI Studio, a platform where people build custom agents, apps to interact with it & share it with others"
+    ]
   },
   {
     "company": "Cloudside Technologies",
