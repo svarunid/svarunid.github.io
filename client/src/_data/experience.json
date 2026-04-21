@@ -1,45 +1,33 @@
 [
   {
     "company": "Presidio",
-    "role": "Engineer - Innovation",
-    "duration": "Feb 2025 – Present",
-    "skills": ["Python", "JS/TS", "AWS", "LangChain", "CI/CD"],
+    "role": "AI Engineer",
+    "duration": "Feb 2026 – Present",
+    "skills": ["Python", "JS/TS", "LangChain", "Agno", "GitHub", "CI/CD"],
     "highlights": [
-      "Worked on GitHub integration for Oswald (internal AI code PR/MR review tool)",
-      "Building Presidio's AI Studio, a platform where people build custom agents, apps to interact with it & share it with others"
+      "Integrated Oswald, an internal AI code review tool, with GitHub to analyze merge-ready pull requests and post inline review comments, expanding adoption among engineering teams using GitHub-based workflows",
+      "Building an AI Agent Marketplace that enables users to create and share custom agents, generate lightweight apps for agent interactions, and configure webhook- or schedule-based automations"
     ]
   },
   {
     "company": "Cloudside Technologies",
     "role": "AI Engineer",
-    "duration": "Dec 2024 – Jan 2025",
-    "skills": ["Python", "FastAPI", "Google ADK", "LangChain", "LangGraph", "FAISS", "PostgreSQL", "Docker", "GCP"],
+    "duration": "Dec 2024 – Jan 2026",
+    "skills": ["Python", "Gemini", "Google ADK", "Vertex AI", "BigQuery", "Cloud Run", "FastAPI", "Docker", "GCP"],
     "highlights": [
-      "Designed and deployed an AI-based entity extraction system using Gemini to parse contact info from complex construction diagrams, achieving ~92% extraction accuracy",
-      "Built a multi-agentic system for log analysis with Google ADK, including a Text-to-SQL agent for BigQuery",
-      "Directed client engagements and guided junior engineers on code quality and best practices",
-      "Awarded 'Best Employee of the Quarter - Q1 2025'"
+      "Designed and deployed an entity extraction system using Gemini to parse structured data from complex construction diagrams, load-tested with Apache JMeter, and scaled on Google Cloud Run to meet client traffic demands",
+      "Built a multi-agent log analysis system using Google ADK, including a Text-to-SQL agent for BigQuery, to retrieve operational logs and resolve user inquiries; deployed on Cloud Run with Vertex AI Agent Engine for auto-scaling and persistent conversational context",
+      "Led client technical discussions and mentored engineers on writing maintainable, production-ready AI application code"
     ]
   },
   {
     "company": "AskEVA",
-    "role": "Software Engineer",
+    "role": "AI Engineer",
     "duration": "Feb 2024 – Sep 2024",
-    "skills": ["Python", "GCP", "AWS", "CI/CD", "Docker", "Node.js", "MongoDB", "Redis", "NGINX"],
+    "skills": ["Python", "Node.js", "AWS SQS", "AWS Lambda", "Redis", "MongoDB", "Docker", "NGINX"],
     "highlights": [
-      "Led end-to-end backend development for AI-powered WhatsApp Business platform",
-      "Designed a scalable queuing system to handle Meta API rate limits, processing hundreds of thousands of outbound messages",
-      "Architected a reliable webhook pipeline for inbound read receipts with AWS SQS and Lambda, increasing throughput by ~35%"
-    ]
-  },
-  {
-    "company": "Buddi AI",
-    "role": "Junior Research Engineer - Trainee",
-    "duration": "Jul 2023 – Oct 2023",
-    "skills": ["Scala", "Java", "Python", "PyTorch"],
-    "highlights": [
-      "Developed an efficient data cleaning pipeline in Scala for extracting structured information from unstructured medical text data",
-      "Implemented and evaluated 'Adaptive Label Thresholding' technique, increasing model precision and recall by 3.17%"
+      "Led end-to-end backend development for an AI-powered WhatsApp Business platform, delivering core messaging features and high-load test coverage; designed a Redis-based queuing system with scheduled workers to handle Meta API rate limits and reliably process hundreds of thousands of outbound messages",
+      "Designed a resilient webhook pipeline for inbound read receipts using AWS SQS and Lambda to absorb burst traffic from Meta's servers, improving throughput while reducing processing latency"
     ]
   }
 ]
