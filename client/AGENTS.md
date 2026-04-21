@@ -63,7 +63,7 @@ The section provides guidelines to follow when developing UI components & layout
 
 ## Technical Guidelines
 
-The project is built on [Tailwind CSS](https://tailwindcss.com/) for styling, [Eleventy](https://www.11ty.dev/) as the templating engine to render markdown, [liquidjs](https://liquidjs.com/) as the template language, [lit-html](https://lit.dev/docs/v1/lit-html/introduction/) for DOM update using HTML templates inside JS, and [Typescript](https://www.typescriptlang.org/).
+The project is built on [Tailwind CSS](https://tailwindcss.com/) for styling, [Eleventy](https://www.11ty.dev/) as the templating engine to render markdown, [liquidjs](https://liquidjs.com/) as the template language, and [Typescript](https://www.typescriptlang.org/).
 
 ### Package Manager
 
