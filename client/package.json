@@ -1,26 +1,27 @@
 {
-  "name": "@zhura/client",
+  "name": "@svarunid/portfolio",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "eleventy --serve",
-    "build": "ELEVENTY_ENV=production eleventy",
-    "clean": "rm -rf dist",
-    "postinstall": "cd .. && husky client/.husky"
+    "build": "eleventy",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
   },
-  "packageManager": "pnpm@10.20.0",
-  "private": "true",
-  "lint-staged": {
-    "*": "prettier --write --ignore-unknown"
+  "engines": {
+    "node": ">=22.12"
   },
+  "volta": {
+    "node": "24.18.0",
+    "pnpm": "10.20.0"
+  },
+  "private": true,
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
     "@11ty/eleventy-plugin-vite": "^7.0.0",
     "@shopify/prettier-plugin-liquid": "^1.10.0",
-    "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.18",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",

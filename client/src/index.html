@@ -4,11 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
+    <meta
+      name="description"
+      content="Portfolio of Arun S V, a senior AI engineer building fullstack AI native systems."
+    />
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👋</text></svg>"
     />
-    <link rel="stylesheet" href="/styles/input.css" />
+    <link rel="stylesheet" href="/styles/site.css" />
   </head>
 
   <body
@@ -41,6 +45,7 @@
               <a
                 href="https://github.com/svarunid"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
                 aria-label="GitHub"
               >
@@ -58,6 +63,7 @@
               <a
                 href="https://www.linkedin.com/in/svarunid/"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
                 aria-label="LinkedIn"
               >
@@ -75,6 +81,7 @@
               <a
                 href="https://x.com/svarunid"
                 target="_blank"
+                rel="noopener noreferrer"
                 class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
                 aria-label="X (Twitter)"
               >
@@ -112,8 +119,8 @@
             <p
               class="text-xs text-neutral-500 dark:text-neutral-600 text-center"
             >
-              Bangalore, India <br />Built with ❤️ using AI. <br />© 2025 Arun S
-              V. All rights reserved.
+              Bangalore, India <br />Built with ❤️ using AI. <br />© {{ "now" |
+              date: "%Y" }} Arun S V. All rights reserved.
             </p>
           </div>
         </footer>

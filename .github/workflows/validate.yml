@@ -1,24 +1,23 @@
-name: Deploy to GitHub Pages
+name: Validate
 
 on:
+  pull_request:
   push:
-    tags:
-      - "pages-v*"
+    branches:
+      - main
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 env:
   VOLTA_FEATURE_PNPM: "1"
 
 concurrency:
-  group: pages
+  group: validate-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
+  client:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -33,25 +32,10 @@ jobs:
         working-directory: ./client
         run: pnpm install --frozen-lockfile
 
+      - name: Check TypeScript
+        working-directory: ./client
+        run: pnpm run typecheck
+
       - name: Build site
         working-directory: ./client
         run: pnpm run build
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: ./client/dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4

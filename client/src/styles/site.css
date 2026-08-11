@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light dark;
+}
+
+::selection {
+  background-color: var(--color-neutral-300);
+  color: var(--color-neutral-900);
+}
+
+@media (prefers-color-scheme: dark) {
+  ::selection {
+    background-color: var(--color-neutral-700);
+    color: var(--color-neutral-50);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-marquee {
+    animation-play-state: paused;
+  }
+}

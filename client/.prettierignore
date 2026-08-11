@@ -1,1 +1,2 @@
-*.json
+dist
+pnpm-lock.yaml

@@ -1,12 +1,18 @@
 [
   {
+    "company": "Valtech",
+    "role": "Senior AI Engineer",
+    "duration": "Aug 2026 – Present",
+    "skills": ["Python", "JS/TS", "Google ADK", "LangChain", "Docker", "GCP"]
+  },
+  {
     "company": "Presidio",
     "role": "AI Engineer",
-    "duration": "Feb 2026 – Present",
-    "skills": ["Python", "JS/TS", "LangChain", "Agno", "GitHub", "CI/CD"],
+    "duration": "Feb 2026 – July 2026",
+    "skills": ["Python", "JS/TS", "LangChain", "LiteLLM", "PostgreSQL", "Docker", "Docker", "GitLab", "CI/CD"],
     "highlights": [
       "Integrated Oswald, an internal AI code review tool, with GitHub to analyze merge-ready pull requests and post inline review comments, expanding adoption among engineering teams using GitHub-based workflows",
-      "Building an AI Agent Marketplace that enables users to create and share custom agents, generate lightweight apps for agent interactions, and configure webhook- or schedule-based automations"
+      "Built an AI Agent Marketplace that enables users to create and share custom agents, generate lightweight apps for agent interactions, and configure webhook- or schedule-based automations"
     ]
   },
   {

@@ -20,14 +20,9 @@
     ]
   },
   {
-    "name": "mellow",
-    "description": "Autonomous software engineer — a TypeScript monorepo built with Bun, Turborepo, and Effect, where agents clone projects, build, and run them inside isolated sandboxes",
-    "skills": ["TypeScript", "Bun", "Turborepo", "Effect", "Drizzle ORM", "PostgreSQL", "Redis", "Docker", "Biome"],
-    "link": "https://github.com/svarunid/mellow",
-    "highlights": [
-      "Designed a multi-workspace architecture (apps: agent/auth/server/web; packages: ai/database/integrations/sandbox) orchestrated with Turborepo and Bun workspaces",
-      "Built an Effect-based sandbox package over OpenSandbox for SSE-streamed command execution, file operations, and lifecycle management across isolated containers",
-      "Modeled the LLM layer as a provider-agnostic Effect service with swappable Anthropic/OpenAI/Google layers, backed by Drizzle ORM on PostgreSQL"
-    ]
+    "name": "publicboard",
+    "description": "An open news collective for recording socio-political incidents & events on a map",
+    "skills": ["TypeScript", "React.js", "TanStack Start"],
+    "link": "https://github.com/svarunid/publicboard"
   }
 ]
