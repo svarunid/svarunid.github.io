@@ -6,7 +6,7 @@
     <div class="flex overflow-hidden">
         <div
             class="social-marquee flex gap-4 animate-[marquee_90s_linear_infinite] hover:[animation-play-state:paused] will-change-transform">
-            {% assign allPosts = posts.x | concat: posts.linkedin %}
+            {% assign allPosts = posts.x | concat: posts.linkedin | shuffle %}
             {% for post in allPosts %}
             <a
                 href="{{ post.link }}"
