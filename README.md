@@ -30,12 +30,12 @@ Keeping the frontend under `client/` leaves room for a future `server/` without 
 
 Requirements:
 
-- [Volta](https://volta.sh/) with experimental pnpm support enabled by setting
-  `VOLTA_FEATURE_PNPM=1`.
+- [mise](https://mise.jdx.dev/).
 
-The project pins Node.js 24.18.0 and pnpm 10.20.0 in `client/package.json`. Volta selects both automatically while working inside `client/`; CI uses the same pins.
+The project pins Node.js 24.18.0 and pnpm 10.20.0 in `mise.toml`. Install the configured toolchain before working in the frontend; CI uses the same file.
 
 ```bash
+mise install
 cd client
 pnpm install
 pnpm dev

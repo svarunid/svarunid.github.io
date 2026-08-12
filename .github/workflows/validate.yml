@@ -9,9 +9,6 @@ on:
 permissions:
   contents: read
 
-env:
-  VOLTA_FEATURE_PNPM: "1"
-
 concurrency:
   group: validate-${{ github.ref }}
   cancel-in-progress: true
@@ -23,10 +20,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Setup Volta toolchain
-        uses: volta-cli/action@v4
-        with:
-          package-json-path: client/package.json
+      - name: Setup mise toolchain
+        uses: jdx/mise-action@v3
 
       - name: Install dependencies
         working-directory: ./client

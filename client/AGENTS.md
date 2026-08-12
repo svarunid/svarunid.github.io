@@ -25,8 +25,8 @@ Do not add React, TanStack, or another application framework for an isolated int
 
 ## Development
 
-- Use the Node.js and pnpm versions pinned under `volta` in `package.json`.
-- Use `pnpm`; do not use npm or Yarn. Volta's pnpm support requires `VOLTA_FEATURE_PNPM=1`.
+- Use the Node.js and pnpm versions pinned in the repository's `mise.toml`.
+- Use `pnpm`; do not use npm or Yarn.
 - Use the scripts declared in `package.json` rather than introducing parallel commands.
 - Do not start the development server or run a build unless the user explicitly requests it.
 - Run `pnpm typecheck` when TypeScript is changed and the user has authorized validation.
